@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd givon-app && npm run build",
-  "outputDirectory": "givon-app/build",
-  "installCommand": "cd givon-app && npm install"
+  "framework": "create-react-app",
+  "rootDirectory": "givon-app",
+  "installCommand": "npm install --legacy-peer-deps"
 }
