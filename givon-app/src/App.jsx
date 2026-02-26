@@ -71,7 +71,7 @@ function Logo() {
 }
 
 function Tag({label,color="#475569"}){
-  return <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${color}50`,background:`${color}15`,color,fontFamily:""Roboto Mono",monospace"}}>{label}</span>;
+  return <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${color}50`,background:`${color}15`,color,fontFamily:"Roboto Mono,monospace"}}>{label}</span>;
 }
 
 function WhyBox({text}){
@@ -89,7 +89,7 @@ function Card({item,borderColor,children}){
     <div onClick={()=>item.url&&window.open(item.url,"_blank")}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{background:"#0f172a",borderRadius:"10px",padding:"18px",border:`1px solid ${borderColor}20`,borderRight:`3px solid ${borderColor}`,display:"flex",flexDirection:"column",gap:11,cursor:item.url?"pointer":"default",transform:h?"translateY(-2px)":"none",boxShadow:h?`0 6px 24px ${borderColor}20`:"none",transition:"transform .18s,box-shadow .18s",position:"relative"}}>
-      {item.url&&<div style={{position:"absolute",top:9,left:11,fontSize:"9px",color:h?"#60a5fa":"#1e3a5f",fontFamily:""Roboto Mono",monospace",transition:"color .2s"}}>↗ פתח מקור</div>}
+      {item.url&&<div style={{position:"absolute",top:9,left:11,fontSize:"9px",color:h?"#60a5fa":"#1e3a5f",fontFamily:"Roboto Mono,monospace",transition:"color .2s"}}>↗ פתח מקור</div>}
       {children}
     </div>
   );
@@ -153,10 +153,10 @@ function DailyBriefing({data}) {
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{fontSize:"12px",fontWeight:600,color:"#e2e8f0",lineHeight:1.35,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.title}</div>
                     <div style={{display:"flex",gap:6,marginTop:3,flexWrap:"wrap",alignItems:"center"}}>
-                      {item.budget&&<span style={{fontSize:"10px",color:"#22c55e",fontFamily:""Roboto Mono",monospace",fontWeight:700}}>{item.budget}</span>}
-                      {item.prize&&<span style={{fontSize:"10px",color:"#22c55e",fontFamily:""Roboto Mono",monospace",fontWeight:700}}>{item.prize}</span>}
-                      {item.deadline&&<span style={{fontSize:"10px",color:"#f87171",fontFamily:""Roboto Mono",monospace"}}>{item.deadline}</span>}
-                      {item.fitScore&&<span style={{fontSize:"10px",color:fitCol(item.fitScore),fontFamily:""Roboto Mono",monospace"}}>fit {item.fitScore}</span>}
+                      {item.budget&&<span style={{fontSize:"10px",color:"#22c55e",fontFamily:"Roboto Mono,monospace",fontWeight:700}}>{item.budget}</span>}
+                      {item.prize&&<span style={{fontSize:"10px",color:"#22c55e",fontFamily:"Roboto Mono,monospace",fontWeight:700}}>{item.prize}</span>}
+                      {item.deadline&&<span style={{fontSize:"10px",color:"#f87171",fontFamily:"Roboto Mono,monospace"}}>{item.deadline}</span>}
+                      {item.fitScore&&<span style={{fontSize:"10px",color:fitCol(item.fitScore),fontFamily:"Roboto Mono,monospace"}}>fit {item.fitScore}</span>}
                       {item.signal&&<span style={{fontSize:"10px",color:"#93c5fd"}}>{item.signal.split("—")[0]}</span>}
                     </div>
                   </div>
@@ -196,12 +196,12 @@ function ContractCard({item,onUpdate}){
           <div style={{fontSize:"13px",fontWeight:700,color:"#f1f5f9",lineHeight:1.35,marginBottom:2}}>{item.title}</div>
           <div style={{fontSize:"10px",color:"#475569"}}>{item.source}</div>
         </div>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:42,height:42,borderRadius:"50%",flexShrink:0,border:`2px solid ${fitCol(item.fitScore)}`,background:`${fitCol(item.fitScore)}15`,fontSize:"12px",fontWeight:800,color:fitCol(item.fitScore),fontFamily:""Roboto Mono",monospace"}}>{item.fitScore}</div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:42,height:42,borderRadius:"50%",flexShrink:0,border:`2px solid ${fitCol(item.fitScore)}`,background:`${fitCol(item.fitScore)}15`,fontSize:"12px",fontWeight:800,color:fitCol(item.fitScore),fontFamily:"Roboto Mono,monospace"}}>{item.fitScore}</div>
       </div>
       <WhyBox text={item.why}/>
       <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
-        {item.budget&&<div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>תקציב</div><div style={{fontSize:"13px",fontWeight:700,color:"#38bdf8",fontFamily:""Roboto Mono",monospace"}}>{item.budget}</div></div>}
-        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>דדליין</div><div style={{fontSize:"12px",fontWeight:700,color:item.urgency==="critical"?"#f87171":"#94a3b8",fontFamily:""Roboto Mono",monospace"}}>{item.deadline}</div></div>
+        {item.budget&&<div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>תקציב</div><div style={{fontSize:"13px",fontWeight:700,color:"#38bdf8",fontFamily:"Roboto Mono,monospace"}}>{item.budget}</div></div>}
+        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>דדליין</div><div style={{fontSize:"12px",fontWeight:700,color:item.urgency==="critical"?"#f87171":"#94a3b8",fontFamily:"Roboto Mono,monospace"}}>{item.deadline}</div></div>
       </div>
       <div style={{display:"flex",gap:5,borderTop:"1px solid #1e293b",paddingTop:9}} onClick={e=>e.stopPropagation()}>
         <button onClick={()=>onUpdate(item.id,{bookmarked:!item.bookmarked})} style={{background:item.bookmarked?"#854d0e30":"transparent",border:`1px solid ${item.bookmarked?"#eab308":"#1e293b"}`,color:item.bookmarked?"#eab308":"#475569",padding:"3px 9px",borderRadius:"5px",fontSize:"11px",cursor:"pointer"}}>🔖</button>
@@ -253,8 +253,8 @@ function GrantCard({item}){
       <div style={{fontSize:"10px",color:"#475569",marginBottom:2}}>{item.source}</div>
       <WhyBox text={item.why}/>
       <div style={{display:"flex",gap:18}}>
-        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>פרס</div><div style={{fontSize:"14px",fontWeight:700,color:"#4ade80",fontFamily:""Roboto Mono",monospace"}}>{item.prize}</div></div>
-        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>דדליין</div><div style={{fontSize:"12px",fontWeight:700,color:"#94a3b8",fontFamily:""Roboto Mono",monospace"}}>{item.deadline}</div></div>
+        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>פרס</div><div style={{fontSize:"14px",fontWeight:700,color:"#4ade80",fontFamily:"Roboto Mono,monospace"}}>{item.prize}</div></div>
+        <div><div style={{fontSize:"9px",color:"#475569",marginBottom:1}}>דדליין</div><div style={{fontSize:"12px",fontWeight:700,color:"#94a3b8",fontFamily:"Roboto Mono,monospace"}}>{item.deadline}</div></div>
       </div>
     </Card>
   );
@@ -465,7 +465,7 @@ function MiniBar({val, color="#3b82f6", label}){
       <div style={{flex:1,background:"#1e293b",borderRadius:3,height:5,overflow:"hidden"}}>
         <div style={{width:`${val}%`,height:"100%",background:color,borderRadius:3}}/>
       </div>
-      <span style={{fontSize:"9px",color:"#475569",fontFamily:""Roboto Mono",monospace",width:28}}>{val}%</span>
+      <span style={{fontSize:"9px",color:"#475569",fontFamily:"Roboto Mono,monospace",width:28}}>{val}%</span>
     </div>
   );
 }
@@ -481,14 +481,14 @@ function TechCard({t, expanded, onToggle}){
             <div style={{fontSize:"13px",fontWeight:800,color:"#f1f5f9"}}>{t.domain}</div>
           </div>
           <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-            <span style={{fontSize:"11px",color:"#22c55e",fontFamily:""Roboto Mono",monospace",fontWeight:700}}>{t.market}</span>
-            <span style={{fontSize:"11px",color:"#38bdf8",fontFamily:""Roboto Mono",monospace"}}>{t.cagr}</span>
+            <span style={{fontSize:"11px",color:"#22c55e",fontFamily:"Roboto Mono,monospace",fontWeight:700}}>{t.market}</span>
+            <span style={{fontSize:"11px",color:"#38bdf8",fontFamily:"Roboto Mono,monospace"}}>{t.cagr}</span>
             <span style={{fontSize:"10px",color:"#475569"}}>{t.momentum}</span>
           </div>
         </div>
         <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:5}}>
           <div style={{background:`${t.recColor}18`,border:`1px solid ${t.recColor}50`,borderRadius:"5px",padding:"2px 9px",fontSize:"10px",fontWeight:800,color:t.recColor}}>{t.rec}</div>
-          <div style={{width:34,height:34,borderRadius:"50%",border:`2px solid ${fc}`,background:`${fc}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"12px",fontWeight:800,color:fc,fontFamily:""Roboto Mono",monospace"}}>{t.givonFit}</div>
+          <div style={{width:34,height:34,borderRadius:"50%",border:`2px solid ${fc}`,background:`${fc}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"12px",fontWeight:800,color:fc,fontFamily:"Roboto Mono,monospace"}}>{t.givonFit}</div>
         </div>
       </div>
 
@@ -512,7 +512,7 @@ function TechCard({t, expanded, onToggle}){
       {/* Assets */}
       {t.givonAssets.length>0&&(
         <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>
-          {t.givonAssets.map(a=><span key={a} style={{fontSize:"9px",background:"#1e3a5f",border:"1px solid #3b82f625",color:"#60a5fa",padding:"2px 7px",borderRadius:"4px",fontFamily:""Roboto Mono",monospace"}}>{a}</span>)}
+          {t.givonAssets.map(a=><span key={a} style={{fontSize:"9px",background:"#1e3a5f",border:"1px solid #3b82f625",color:"#60a5fa",padding:"2px 7px",borderRadius:"4px",fontFamily:"Roboto Mono,monospace"}}>{a}</span>)}
         </div>
       )}
 
@@ -554,7 +554,7 @@ function GeoCard({g, expanded, onToggle}){
             </div>
           </div>
           <div style={{display:"flex",gap:6,alignItems:"center"}}>
-            <span style={{fontSize:"12px",color:"#22c55e",fontFamily:""Roboto Mono",monospace",fontWeight:700}}>{g.budget}</span>
+            <span style={{fontSize:"12px",color:"#22c55e",fontFamily:"Roboto Mono,monospace",fontWeight:700}}>{g.budget}</span>
             <span style={{fontSize:"13px"}}>{g.momentum}</span>
           </div>
         </div>
@@ -563,7 +563,7 @@ function GeoCard({g, expanded, onToggle}){
 
       {/* Hot domains */}
       <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
-        {g.hotDomains.map(d=><span key={d} style={{fontSize:"9px",background:"#1e293b",color:"#94a3b8",padding:"2px 7px",borderRadius:"4px",fontFamily:""Roboto Mono",monospace"}}>{d}</span>)}
+        {g.hotDomains.map(d=><span key={d} style={{fontSize:"9px",background:"#1e293b",color:"#94a3b8",padding:"2px 7px",borderRadius:"4px",fontFamily:"Roboto Mono,monospace"}}>{d}</span>)}
       </div>
 
       {/* White space */}
@@ -623,9 +623,9 @@ function TrendsView(){
               <span style={{fontSize:15}}>{t.icon}</span>
               <div style={{flex:1}}>
                 <div style={{fontSize:"11px",fontWeight:700,color:"#f1f5f9"}}>{t.domain}</div>
-                <div style={{fontSize:"10px",color:"#22c55e",fontFamily:""Roboto Mono",monospace"}}>{t.market} · {t.cagr}</div>
+                <div style={{fontSize:"10px",color:"#22c55e",fontFamily:"Roboto Mono,monospace"}}>{t.market} · {t.cagr}</div>
               </div>
-              <div style={{width:28,height:28,borderRadius:"50%",border:"2px solid #22c55e",background:"#22c55e15",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"10px",fontWeight:800,color:"#22c55e",fontFamily:""Roboto Mono",monospace"}}>{t.givonFit}</div>
+              <div style={{width:28,height:28,borderRadius:"50%",border:"2px solid #22c55e",background:"#22c55e15",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"10px",fontWeight:800,color:"#22c55e",fontFamily:"Roboto Mono,monospace"}}>{t.givonFit}</div>
             </div>
           ))}
           {/* Hot geo strip */}
@@ -635,7 +635,7 @@ function TrendsView(){
               <span style={{fontSize:18}}>{g.flag}</span>
               <div style={{flex:1}}>
                 <div style={{fontSize:"11px",fontWeight:700,color:"#f1f5f9"}}>{g.country}</div>
-                <div style={{fontSize:"10px",color:"#fb923c",fontFamily:""Roboto Mono",monospace"}}>{g.budget} · {g.momentum}</div>
+                <div style={{fontSize:"10px",color:"#fb923c",fontFamily:"Roboto Mono,monospace"}}>{g.budget} · {g.momentum}</div>
               </div>
             </div>
           ))}
@@ -827,7 +827,7 @@ function SpendingBar({label, val, color="#3b82f6"}) {
     <div style={{marginBottom:6}}>
       <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
         <span style={{fontSize:"10px",color:"#64748b"}}>{label}</span>
-        <span style={{fontSize:"10px",color:"#94a3b8",fontFamily:""Roboto Mono",monospace"}}>{val}%</span>
+        <span style={{fontSize:"10px",color:"#94a3b8",fontFamily:"Roboto Mono,monospace"}}>{val}%</span>
       </div>
       <div style={{background:"#1e293b",borderRadius:3,height:5,overflow:"hidden"}}>
         <div style={{width:`${val}%`,height:"100%",background:color,borderRadius:3,transition:"width .6s ease"}}/>
@@ -865,8 +865,8 @@ function TrendCard({t, expanded, onToggle}) {
             <div style={{fontSize:"14px",fontWeight:800,color:"#f1f5f9"}}>{t.domain}</div>
           </div>
           <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-            <span style={{fontSize:"11px",color:"#22c55e",fontFamily:""Roboto Mono",monospace",fontWeight:700}}>{t.market}</span>
-            <span style={{fontSize:"11px",color:"#38bdf8",fontFamily:""Roboto Mono",monospace"}}>{t.cagr} CAGR</span>
+            <span style={{fontSize:"11px",color:"#22c55e",fontFamily:"Roboto Mono,monospace",fontWeight:700}}>{t.market}</span>
+            <span style={{fontSize:"11px",color:"#38bdf8",fontFamily:"Roboto Mono,monospace"}}>{t.cagr} CAGR</span>
             <span style={{fontSize:"10px",color:"#475569"}}>{t.horizon}</span>
           </div>
         </div>
@@ -876,7 +876,7 @@ function TrendCard({t, expanded, onToggle}) {
           <div style={{background:`${t.recColor}18`,border:`1px solid ${t.recColor}50`,borderRadius:"6px",padding:"3px 10px",fontSize:"11px",fontWeight:800,color:t.recColor}}>{t.recommendation}</div>
           <div style={{display:"flex",alignItems:"center",gap:5}}>
             <span style={{fontSize:"9px",color:"#475569"}}>Fit לגבעון</span>
-            <div style={{width:32,height:32,borderRadius:"50%",border:`2px solid ${fitColor}`,background:`${fitColor}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"11px",fontWeight:800,color:fitColor,fontFamily:""Roboto Mono",monospace"}}>{t.givonFit}</div>
+            <div style={{width:32,height:32,borderRadius:"50%",border:`2px solid ${fitColor}`,background:`${fitColor}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"11px",fontWeight:800,color:fitColor,fontFamily:"Roboto Mono,monospace"}}>{t.givonFit}</div>
           </div>
         </div>
       </div>
@@ -985,14 +985,14 @@ function PartnershipCard({p}){
         <div style={{flex:1}}>
           <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:6,flexWrap:"wrap"}}>
             <span style={{fontSize:13}}>{p.flag}</span>
-            <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${t.color}50`,background:`${t.color}15`,color:t.color,fontFamily:""Roboto Mono",monospace"}}>{t.icon} {t.label}</span>
-            <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${sc}50`,background:`${sc}15`,color:sc,fontFamily:""Roboto Mono",monospace"}}>{p.status}</span>
+            <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${t.color}50`,background:`${t.color}15`,color:t.color,fontFamily:"Roboto Mono,monospace"}}>{t.icon} {t.label}</span>
+            <span style={{fontSize:"10px",fontWeight:700,padding:"2px 7px",borderRadius:"4px",border:`1px solid ${sc}50`,background:`${sc}15`,color:sc,fontFamily:"Roboto Mono,monospace"}}>{p.status}</span>
           </div>
           <div style={{fontSize:"14px",fontWeight:800,color:"#f1f5f9",marginBottom:5}}>{p.title}</div>
           <div style={{fontSize:"12px",color:"#94a3b8",fontStyle:"italic",lineHeight:1.5,borderRight:`2px solid ${t.color}`,paddingRight:8}}>{p.oneLiner}</div>
         </div>
         <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,marginRight:8,flexShrink:0}}>
-          <div style={{width:38,height:38,borderRadius:"50%",border:`2px solid ${fc}`,background:`${fc}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"12px",fontWeight:800,color:fc,fontFamily:""Roboto Mono",monospace"}}>{p.fit}</div>
+          <div style={{width:38,height:38,borderRadius:"50%",border:`2px solid ${fc}`,background:`${fc}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"12px",fontWeight:800,color:fc,fontFamily:"Roboto Mono,monospace"}}>{p.fit}</div>
           <div style={{fontSize:"8px",color:"#334155"}}>fit</div>
         </div>
       </div>
@@ -1052,7 +1052,7 @@ function PartnershipOpportunities(){
           ["⚡ בתהליך",PARTNERSHIPS.filter(p=>p.status==="בתהליך").length,"#fbbf24"],
         ].map(([label,val,color])=>(
           <div key={label} style={{background:"#0a0f1e",border:`1px solid ${color}20`,borderTop:`2px solid ${color}`,borderRadius:"8px",padding:"12px",textAlign:"center"}}>
-            <div style={{fontSize:"22px",fontWeight:800,color,fontFamily:""Roboto Mono",monospace",lineHeight:1}}>{val}</div>
+            <div style={{fontSize:"22px",fontWeight:800,color,fontFamily:"Roboto Mono,monospace",lineHeight:1}}>{val}</div>
             <div style={{fontSize:"9px",color:"#334155",marginTop:3}}>{label}</div>
           </div>
         ))}
@@ -1127,7 +1127,7 @@ export default function App(){
               ["📊 פעיל", [...data.contracts,...data.grants].filter(i=>i.status!=="בוטל").length, "#38bdf8"],
             ].map(([label,val,color])=>(
               <div key={label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
-                <div style={{fontSize:"18px",fontWeight:800,color,fontFamily:""Roboto Mono",monospace",lineHeight:1}}>{val}</div>
+                <div style={{fontSize:"18px",fontWeight:800,color,fontFamily:"Roboto Mono,monospace",lineHeight:1}}>{val}</div>
                 <div style={{fontSize:"9px",color:"#334155",letterSpacing:"0.05em"}}>{label}</div>
               </div>
             ))}
@@ -1155,7 +1155,7 @@ export default function App(){
               return (
                 <button key={cat.id} onClick={()=>setActiveCat(cat.id)} style={{background:on?"#1e3a5f":"#0a0f1e",border:`1px solid ${on?"#3b82f6":"#1e293b"}`,color:on?"#60a5fa":"#475569",padding:"7px 14px",borderRadius:"8px",fontSize:"12px",fontWeight:on?700:400,cursor:"pointer",display:"flex",alignItems:"center",gap:5,transition:"all .15s"}}>
                   <span>{cat.icon}</span><span>{cat.label}</span>
-                  <span style={{background:on?"#1d3a60":"#1e293b",color:on?"#60a5fa":"#475569",fontSize:"10px",padding:"1px 5px",borderRadius:"8px",fontFamily:""Roboto Mono",monospace"}}>{count}</span>
+                  <span style={{background:on?"#1d3a60":"#1e293b",color:on?"#60a5fa":"#475569",fontSize:"10px",padding:"1px 5px",borderRadius:"8px",fontFamily:"Roboto Mono,monospace"}}>{count}</span>
                 </button>
               );
             })}
@@ -1169,7 +1169,7 @@ export default function App(){
                 title={label}
                 style={{background:countryFilter===label?"#1e3a5f":"transparent",border:`1px solid ${countryFilter===label?"#3b82f6":"#1e293b"}`,borderRadius:"6px",padding:"4px 8px",fontSize:"16px",cursor:"pointer",transition:"all .15s",lineHeight:1,display:"flex",alignItems:"center",gap:4}}>
                 {flag}
-                {countryFilter===label&&<span style={{fontSize:"9px",color:"#60a5fa",fontFamily:""Roboto Mono",monospace"}}>{label}</span>}
+                {countryFilter===label&&<span style={{fontSize:"9px",color:"#60a5fa",fontFamily:"Roboto Mono,monospace"}}>{label}</span>}
               </button>
             ))}
             {countryFilter&&<button onClick={()=>setCountryFilter(null)} style={{background:"transparent",border:"1px solid #334155",borderRadius:"6px",padding:"3px 9px",fontSize:"10px",color:"#475569",cursor:"pointer"}}>✕ נקה</button>}
