@@ -1105,7 +1105,7 @@ export default function App(){
   const critical=data.contracts.filter(i=>i.urgency==="critical").length+data.grants.filter(i=>i.urgency==="critical").length;
 
   return (
-    <div style={{minHeight:"100vh",background:"#020617",color:"#e2e8f0",fontFamily:"'Segoe UI',Tahoma,sans-serif",direction:"rtl"}}>
+    <div style={{minHeight:"100vh",background:"#020617",color:"#e2e8f0",fontFamily:"'Inter','Segoe UI',Tahoma,sans-serif",direction:"rtl"}}>
 
       {/* ── Header ── */}
       <div style={{background:"rgba(10,15,30,0.75)",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",borderBottom:"1px solid rgba(255,255,255,0.06)",padding:"0 24px",position:"sticky",top:0,zIndex:50,boxShadow:"0 4px 24px rgba(0,0,0,0.4)"}}>
@@ -1115,7 +1115,7 @@ export default function App(){
             <div style={{width:1,height:24,background:"#1e293b"}}/>
             {/* ניווט */}
             {[["briefing","📊 בריפינג יומי"],["catalog","📋 קטלוג"],["trends","📈 מגמות"],["partnerships","🎯 שותפויות"]].map(([v,label])=>(
-              <button key={v} onClick={()=>setView(v)} style={{background:view===v?"rgba(0,242,254,0.06)":"transparent",border:"none",borderBottom:view===v?"2px solid #00f2fe":"2px solid transparent",color:view===v?"#ffffff":"#475569",padding:"0 12px",height:60,fontSize:"13px",fontWeight:view===v?700:400,cursor:"pointer",transition:"all .2s",textShadow:view===v?"0 0 10px rgba(0,242,254,0.8)":"none",boxShadow:view===v?"inset 0 -2px 10px rgba(0,242,254,0.1)":"none",borderRadius:"4px 4px 0 0",letterSpacing:"0.3px"}}>{label}</button>
+              <button key={v} onClick={()=>setView(v)} style={{background:view===v?"rgba(0,242,254,0.08)":"transparent",border:"none",borderBottom:view===v?"2px solid #00f2fe":"2px solid transparent",color:view===v?"#e2e8f0":"#475569",padding:"0 16px",height:60,fontSize:"13px",fontWeight:view===v?700:400,cursor:"pointer",transition:"all .2s",textShadow:view===v?"0 0 12px rgba(0,242,254,0.9)":"none",boxShadow:view===v?"inset 0 -3px 12px rgba(0,242,254,0.15), 0 0 20px rgba(0,242,254,0.05)":"none",borderRadius:"4px 4px 0 0",letterSpacing:"0.4px"}}>{label}</button>
             ))}
           </div>
 
