@@ -6,32 +6,8 @@
 import anthropic
 import json
 import time
-import hashlib
-import os
 from datetime import datetime
 from typing import Optional
-
-# ─── Hash Memory — זיכרון לחיסכון בעלות API ──────────────────────────────────
-
-HASH_CACHE_FILE = "analyzed_hashes.json"
-
-def _make_hash(item: dict) -> str:
-    key = f"{item.get('title', '')}|{item.get('source', '')}|{item.get('url', '')}"
-    return hashlib.md5(key.encode("utf-8")).hexdigest()
-
-def load_hash_cache() -> set:
-    if os.path.exists(HASH_CACHE_FILE):
-        try:
-            with open(HASH_CACHE_FILE, "r", encoding="utf-8") as f:
-                return set(json.load(f).get("hashes", []))
-        except (json.JSONDecodeError, KeyError):
-            return set()
-    return set()
-
-def save_hash_cache(cache: set):
-    with open(HASH_CACHE_FILE, "w", encoding="utf-8") as f:
-        json.dump({"hashes": list(cache), "count": len(cache),
-                   "last_updated": datetime.now().isoformat()}, f, ensure_ascii=False, indent=2)
 
 # ─── פרופיל גבעון (system prompt) ────────────────────────────────────────────
 
@@ -147,6 +123,35 @@ URL: {item.get('url', '')}
         result["status"] = "פתוח"
         result["assignee"] = None
 
+        # תיוג קשרים אישיים — ישראל
+        ISRAEL_KEYWORDS = ["מפא", "מלמ", "צה", "mafat", "imod", "idf", "mod.gov.il"]
+        
+        # תיוג שותפים אסטרטגיים — ארה"ב וגרמניה
+        STRATEGIC_KEYWORDS = [
+            # ארה"ב
+            "rheinmetall", "hensoldt", "thales", "knds", "leonardo",
+            "booz allen", "saic", "l3harris", "anduril", "shield ai",
+            "leidos", "peraton", "caci", "palantir", "axon", "dedrone",
+            "redwire", "ondas",
+            # גרמניה/אירופה
+            "bundeswehr", "nato diana", "edf", "european defence fund",
+        ]
+        
+        title_lower = item.get("title", "").lower()
+        source_lower = item.get("source", "").lower()
+        url_lower = item.get("url", "").lower()
+        combined = title_lower + source_lower + url_lower
+        
+        if any(kw in combined for kw in ISRAEL_KEYWORDS):
+            result["personal_connection"] = True
+            result["bookmarked"] = True
+            if result.get("urgency") not in ("critical",):
+                result["urgency"] = "high"
+        
+        if any(kw in combined for kw in STRATEGIC_KEYWORDS):
+            result["strategic_partner"] = True
+            result["bookmarked"] = True
+
         return result
 
     except json.JSONDecodeError as e:
@@ -159,21 +164,16 @@ URL: {item.get('url', '')}
 
 def run_analysis(raw_items: list, api_key: str, batch_size: int = 5) -> list:
     """
-    מנתח את כל הפריטים הגולמיים.
-    מדלג על פריטים שכבר נותחו — חיסכון 80-90% בעלות API החל מריצה שנייה.
+    מנתח את כל הפריטים הגולמיים
+    batch_size: כמה פריטים לנתח במקביל (להגבלת עלות)
     """
     client = anthropic.Anthropic(api_key=api_key)
-
-    # ── טעינת Hash cache ──
-    hash_cache = load_hash_cache()
-    cache_hits = 0
 
     analyzed = []
     skipped = 0
     errors = 0
 
     print(f"\nמנתח {len(raw_items)} פריטים...")
-    print(f"Hash cache: {len(hash_cache)} פריטים ידועים מריצות קודמות")
     print("=" * 50)
 
     for i, item in enumerate(raw_items):
@@ -186,18 +186,7 @@ def run_analysis(raw_items: list, api_key: str, batch_size: int = 5) -> list:
             skipped += 1
             continue
 
-        # ── בדיקת Hash — האם כבר נותח? ──
-        item_hash = _make_hash(item)
-        if item_hash in hash_cache:
-            print(f"  → ⚡ cache hit, מדלג")
-            cache_hits += 1
-            skipped += 1
-            continue
-
         result = analyze_item(client, item)
-
-        # שמור hash בכל מקרה — לא לנתח שוב גם אם לא רלוונטי
-        hash_cache.add(item_hash)
 
         if result:
             analyzed.append(result)
@@ -212,13 +201,8 @@ def run_analysis(raw_items: list, api_key: str, batch_size: int = 5) -> list:
         else:
             time.sleep(0.5)
 
-    # ── שמירת cache מעודכן ──
-    save_hash_cache(hash_cache)
-
     print(f"\n{'='*50}")
-    print(f"רלוונטיים: {len(analyzed)} | דולגו: {skipped} | Cache hits: {cache_hits} | שגיאות: {errors}")
-    if cache_hits > 0:
-        print(f"💰 חיסכון משוער: ~${cache_hits * 0.003:.2f} בעלות API")
+    print(f"רלוונטיים: {len(analyzed)} | דולגו: {skipped} | שגיאות: {errors}")
     return analyzed
 
 
