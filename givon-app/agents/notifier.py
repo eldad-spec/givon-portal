@@ -13,6 +13,13 @@ from datetime import datetime
 # ─── רשימת נמענים — ערוך כאן ──────────────────────────────────────────────
 RECIPIENTS = [
     os.environ.get("NOTIFY_EMAIL", ""),
+    "yonatan@givondefense.com",
+    "talia@givondefense.com",
+    "avi@givondefense.com",
+    "lihi@givondefense.com",
+    "romi@givondefense.com",
+    "yahel@givondefense.com",
+    "liron@givondefense.com",
 ]
 
 # ─── הגדרות שליחה ────────────────────────────────────────────────────────────
