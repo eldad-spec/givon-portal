@@ -12,17 +12,15 @@ from datetime import datetime
 
 # ─── רשימת נמענים — ערוך כאן ──────────────────────────────────────────────
 RECIPIENTS = [
-    # "name@company.com",
-    # "name2@company.com",
-    # הוסף כתובות כאן
+    os.environ.get("NOTIFY_EMAIL", ""),
 ]
 
 # ─── הגדרות שליחה ────────────────────────────────────────────────────────────
 # מלא את הפרטים האלה פעם אחת — ואז הכל אוטומטי
 SMTP_HOST   = "smtp.gmail.com"
 SMTP_PORT   = 587
-FROM_EMAIL  = os.environ.get("GIVON_EMAIL", "")         # המייל שממנו שולחים
-EMAIL_PASS  = os.environ.get("GIVON_EMAIL_PASS", "")    # App Password (לא סיסמה רגילה)
+FROM_EMAIL  = os.environ.get("NOTIFY_EMAIL", "")         # המייל שממנו שולחים
+EMAIL_PASS  = os.environ.get("NOTIFY_PASSWORD", "")    # App Password (לא סיסמה רגילה)
 PORTAL_URL  = os.environ.get("GIVON_PORTAL_URL", "https://givon-intel.vercel.app")
 
 # ─── בניית המייל ──────────────────────────────────────────────────────────────
