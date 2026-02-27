@@ -36,7 +36,7 @@ jobs:
           NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
           NOTIFY_PASSWORD: ${{ secrets.NOTIFY_PASSWORD }}
         run: |
-          cd agents
+          cd givon-app/agents
           python run.py --no-push
         continue-on-error: false
 
@@ -47,7 +47,7 @@ jobs:
 
           # הוספת הנתונים וה-Hashes (הזיכרון לחיסכון בכסף)
           git add givon-app/src/opportunities.json
-          git add agents/analyzed_hashes.json || true
+          git add givon-app/agents/analyzed_hashes.json || true
 
           # ביצוע commit רק אם יש שינויים
           if git diff --staged --quiet; then
