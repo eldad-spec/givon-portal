@@ -28,7 +28,7 @@ SMTP_HOST   = "smtp.gmail.com"
 SMTP_PORT   = 587
 FROM_EMAIL  = os.environ.get("NOTIFY_EMAIL", "")         # המייל שממנו שולחים
 EMAIL_PASS  = os.environ.get("NOTIFY_PASSWORD", "")    # App Password (לא סיסמה רגילה)
-PORTAL_URL  = os.environ.get("GIVON_PORTAL_URL", "https://givon-intel.vercel.app")
+PORTAL_URL  = os.environ.get("GIVON_PORTAL_URL", ""https://givondefense.vercel.app")
 
 # ─── בניית המייל ──────────────────────────────────────────────────────────────
 
