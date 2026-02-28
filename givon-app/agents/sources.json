@@ -1,8 +1,8 @@
 {
   "_meta": {
     "description": "רשימת מקורות נושמת — ניתן להוסיף/להסיר בכל עת",
-    "last_updated": "2026-02-25",
-    "total": 70
+    "last_updated": "2026-02-28",
+    "total": 87
   },
   "tier1_apis": [
     {
@@ -10,40 +10,36 @@
       "name": "SAM.gov — DoD Opportunities",
       "type": "api",
       "url": "https://api.sam.gov/opportunities/v2/search",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
-      "active": true,
-      "notes": "דורש API key חינמי מ-sam.gov/profile"
+      "active": true
     },
     {
       "id": "sbir_gov",
       "name": "DoD SBIR/STTR",
       "type": "api",
       "url": "https://api.sbir.gov/solicitations",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
-      "active": true,
-      "notes": "API פתוח, אין צורך ב-key"
+      "active": true
     },
     {
       "id": "eu_funding",
-      "name": "EU Funding & Tenders Portal",
+      "name": "EU Funding and Tenders Portal",
       "type": "api",
       "url": "https://api.tech.ec.europa.eu/search-api/prod/rest/search",
       "country": "אירופה",
       "flag": "🇪🇺",
-      "active": true,
-      "notes": "API פתוח של האיחוד האירופי"
+      "active": true
     },
     {
       "id": "grants_gov",
-      "name": "Grants.gov — US Federal Grants",
+      "name": "Grants.gov US Federal Grants",
       "type": "api",
       "url": "https://api.grants.gov/v2/api/search2",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
-      "active": true,
-      "notes": "API פתוח, מקיף מאוד"
+      "active": true
     }
   ],
   "tier1_rss": [
@@ -52,16 +48,16 @@
       "name": "DARPA News",
       "type": "rss",
       "url": "https://www.darpa.mil/rss/news",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
     {
       "id": "diu_news",
-      "name": "DIU — Defense Innovation Unit",
+      "name": "DIU Defense Innovation Unit",
       "type": "rss",
       "url": "https://www.diu.mil/feed",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -70,7 +66,7 @@
       "name": "AFWERX",
       "type": "rss",
       "url": "https://afwerx.com/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -79,7 +75,7 @@
       "name": "NATO DIANA",
       "type": "rss",
       "url": "https://www.diana.nato.int/rss.xml",
-      "country": "נאט״ו",
+      "country": "נאט\"ו",
       "flag": "🏛️",
       "active": true
     },
@@ -88,7 +84,7 @@
       "name": "NATO News",
       "type": "rss",
       "url": "https://www.nato.int/cps/en/natolive/news.xml",
-      "country": "נאט״ו",
+      "country": "נאט\"ו",
       "flag": "🏛️",
       "active": true
     },
@@ -139,7 +135,7 @@
     },
     {
       "id": "french_dga",
-      "name": "DGA — Direction Générale de l'Armement",
+      "name": "DGA France",
       "type": "rss",
       "url": "https://www.defense.gouv.fr/dga/rss",
       "country": "צרפת",
@@ -148,7 +144,7 @@
     },
     {
       "id": "bundeswehr",
-      "name": "Bundeswehr / BMVg",
+      "name": "Bundeswehr BMVg",
       "type": "rss",
       "url": "https://www.bmvg.de/de/rss.xml",
       "country": "גרמניה",
@@ -160,9 +156,128 @@
       "name": "NATO Innovation Fund",
       "type": "rss",
       "url": "https://www.natoinnovationfund.nato.int/feed",
-      "country": "נאט״ו",
+      "country": "נאט\"ו",
       "flag": "🏛️",
       "active": true
+    },
+    {
+      "id": "edr_magazine",
+      "name": "EDR Magazine European Defence",
+      "type": "rss",
+      "url": "https://www.edrmagazine.eu/feed",
+      "country": "אירופה",
+      "flag": "🇪🇺",
+      "active": true,
+      "notes": "מקור מצוין לכנסים והזדמנויות ביטחוניות אירופיות"
+    },
+    {
+      "id": "defense_advancement",
+      "name": "Defense Advancement Events",
+      "type": "rss",
+      "url": "https://www.defenseadvancement.com/feed/",
+      "country": "גלובלי",
+      "flag": "🌐",
+      "active": true,
+      "notes": "לוח אירועים ביטחוני ממוקד"
+    },
+    {
+      "id": "army_technology",
+      "name": "Army Technology Events",
+      "type": "rss",
+      "url": "https://www.army-technology.com/feed/",
+      "country": "גלובלי",
+      "flag": "🌐",
+      "active": true,
+      "notes": "אירועי צבא בינלאומיים"
+    },
+    {
+      "id": "nato_bids",
+      "name": "NATO Bids and Tenders",
+      "type": "rss",
+      "url": "https://www.nato.int/cps/en/natolive/procurement.xml",
+      "country": "נאט\"ו",
+      "flag": "🏛️",
+      "active": true,
+      "notes": "מכרזי נאטו ואירועים"
+    },
+    {
+      "id": "auvsi",
+      "name": "AUVSI Unmanned Systems",
+      "type": "rss",
+      "url": "https://www.auvsi.org/rss.xml",
+      "country": "ארה\"ב",
+      "flag": "🇺🇸",
+      "active": true,
+      "notes": "מארגן XPONENTIAL"
+    },
+    {
+      "id": "eurosatory",
+      "name": "Eurosatory COGES",
+      "type": "rss",
+      "url": "https://www.eurosatory.com/en/feed/",
+      "country": "צרפת",
+      "flag": "🇫🇷",
+      "active": true,
+      "notes": "כנסי קרקע אירופיים"
+    },
+    {
+      "id": "ukdse",
+      "name": "UKDSE UK Defence and Security Expo",
+      "type": "rss",
+      "url": "https://www.ukdse.co.uk/feed/",
+      "country": "בריטניה",
+      "flag": "🇬🇧",
+      "active": true
+    },
+    {
+      "id": "asd_europe",
+      "name": "ASD AeroSpace Defence Europe",
+      "type": "rss",
+      "url": "https://www.asd-europe.org/feed",
+      "country": "אירופה",
+      "flag": "🇪🇺",
+      "active": true,
+      "notes": "איגוד תעשיות הביטחון והתעופה האירופי"
+    },
+    {
+      "id": "bdsv_germany",
+      "name": "BDSV German Defence Industry",
+      "type": "rss",
+      "url": "https://www.bdsv.eu/feed/",
+      "country": "גרמניה",
+      "flag": "🇩🇪",
+      "active": true,
+      "notes": "איגוד תעשיות הביטחון הגרמני"
+    },
+    {
+      "id": "drohnennetzwerk",
+      "name": "Drohnennetzwerk Deutschland",
+      "type": "rss",
+      "url": "https://drohnennetzwerk.de/feed/",
+      "country": "גרמניה",
+      "flag": "🇩🇪",
+      "active": true,
+      "notes": "אשכול דרונים גרמני"
+    },
+    {
+      "id": "aerospace_valley",
+      "name": "Aerospace Valley France",
+      "type": "rss",
+      "url": "https://www.aerospace-valley.com/en/feed",
+      "country": "צרפת",
+      "flag": "🇫🇷",
+      "active": true,
+      "notes": "אשכול אווירי צרפתי"
+    },
+    {
+      "id": "messe_dusseldorf",
+      "name": "Messe Dusseldorf Defense Events",
+      "type": "rss",
+      "url": "https://www.messe-duesseldorf.de/rss/news_en.xml",
+      "country": "גרמניה",
+      "flag": "🇩🇪",
+      "active": true,
+      "notes": "מארגנת XPONENTIAL Europe"
     }
   ],
   "tier2_news": [
@@ -204,7 +319,7 @@
     },
     {
       "id": "janes",
-      "name": "Jane's Defense",
+      "name": "Janes Defense",
       "type": "rss",
       "url": "https://www.janes.com/feeds/news",
       "country": "גלובלי",
@@ -225,7 +340,7 @@
       "name": "Army Times",
       "type": "rss",
       "url": "https://www.armytimes.com/rss/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -234,7 +349,7 @@
       "name": "Army Futures Command",
       "type": "rss",
       "url": "https://www.army.mil/rss/78",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -243,7 +358,7 @@
       "name": "USNI News",
       "type": "rss",
       "url": "https://news.usni.org/feed",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -267,7 +382,7 @@
     },
     {
       "id": "globes_tech",
-      "name": "גלובס — טכנולוגיה וביטחון",
+      "name": "גלובס טכנולוגיה",
       "type": "rss",
       "url": "https://www.globes.co.il/webservice/rss/rssfeeder.aspx?id=1002",
       "country": "ישראל",
@@ -276,7 +391,7 @@
     },
     {
       "id": "calcalist_defense",
-      "name": "כלכליסט — ביטחון",
+      "name": "כלכליסט ביטחון",
       "type": "rss",
       "url": "https://www.calcalist.co.il/rss/",
       "country": "ישראל",
@@ -288,13 +403,13 @@
       "name": "Defense Daily",
       "type": "rss",
       "url": "https://www.defensedaily.com/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
     {
       "id": "es_t_germany",
-      "name": "ES&T Germany",
+      "name": "ES and T Germany",
       "type": "rss",
       "url": "https://euro-sd.com/feed/",
       "country": "גרמניה",
@@ -303,7 +418,7 @@
     },
     {
       "id": "defense24_poland",
-      "name": "Defense24",
+      "name": "Defense24 Poland",
       "type": "rss",
       "url": "https://defence24.com/rss",
       "country": "מזרח אירופה",
@@ -335,7 +450,7 @@
       "name": "Anduril Industries",
       "type": "rss",
       "url": "https://www.anduril.com/rss.xml",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -344,7 +459,7 @@
       "name": "Shield AI",
       "type": "rss",
       "url": "https://www.shield.ai/feed",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -353,7 +468,7 @@
       "name": "Palantir Blog",
       "type": "rss",
       "url": "https://blog.palantir.com/feed",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -362,7 +477,7 @@
       "name": "L3Harris Technologies",
       "type": "rss",
       "url": "https://www.l3harris.com/rss",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -392,12 +507,31 @@
       "country": "צרפת",
       "flag": "🇫🇷",
       "active": true
+    },
+    {
+      "id": "helsing",
+      "name": "Helsing AI",
+      "type": "rss",
+      "url": "https://helsing.ai/feed.xml",
+      "country": "גרמניה",
+      "flag": "🇩🇪",
+      "active": true,
+      "notes": "סטארטאפ AI ביטחוני מוביל באירופה"
+    },
+    {
+      "id": "quantum_sys",
+      "name": "Quantum Systems",
+      "type": "rss",
+      "url": "https://www.quantum-systems.com/feed/",
+      "country": "גרמניה",
+      "flag": "🇩🇪",
+      "active": true
     }
   ],
   "tier3_think_tanks": [
     {
       "id": "rand_defense",
-      "name": "RAND Defense & Security",
+      "name": "RAND Defense and Security",
       "type": "rss",
       "url": "https://www.rand.org/topics/defense-and-security.xml",
       "country": "גלובלי",
@@ -406,7 +540,7 @@
     },
     {
       "id": "csis",
-      "name": "CSIS — International Security",
+      "name": "CSIS International Security",
       "type": "rss",
       "url": "https://www.csis.org/programs/international-security-program/rss.xml",
       "country": "גלובלי",
@@ -415,7 +549,7 @@
     },
     {
       "id": "iiss",
-      "name": "IISS — International Institute for Strategic Studies",
+      "name": "IISS",
       "type": "rss",
       "url": "https://www.iiss.org/rss/publications",
       "country": "גלובלי",
@@ -424,7 +558,7 @@
     },
     {
       "id": "rusi",
-      "name": "RUSI — Royal United Services Institute",
+      "name": "RUSI",
       "type": "rss",
       "url": "https://rusi.org/rss.xml",
       "country": "בריטניה",
@@ -433,7 +567,7 @@
     },
     {
       "id": "brookings_defense",
-      "name": "Brookings — Defense",
+      "name": "Brookings Defense",
       "type": "rss",
       "url": "https://www.brookings.edu/topic/defense/feed/",
       "country": "גלובלי",
@@ -442,7 +576,7 @@
     },
     {
       "id": "inss_israel",
-      "name": "INSS — Institute for National Security Studies",
+      "name": "INSS Israel",
       "type": "rss",
       "url": "https://www.inss.org.il/rss/",
       "country": "ישראל",
@@ -474,7 +608,7 @@
       "name": "Shield Capital",
       "type": "rss",
       "url": "https://www.shieldcap.com/feed",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -483,7 +617,7 @@
       "name": "In-Q-Tel",
       "type": "rss",
       "url": "https://www.iqt.org/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -492,7 +626,7 @@
       "name": "NATO Innovation Fund Blog",
       "type": "rss",
       "url": "https://www.natoinnovationfund.nato.int/news/feed",
-      "country": "נאט״ו",
+      "country": "נאט\"ו",
       "flag": "🏛️",
       "active": true
     },
@@ -501,7 +635,7 @@
       "name": "Lux Capital Blog",
       "type": "rss",
       "url": "https://luxcapital.com/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -510,7 +644,7 @@
       "name": "a16z American Dynamism",
       "type": "rss",
       "url": "https://a16z.com/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
@@ -519,13 +653,13 @@
       "name": "Lightspeed Defense Blog",
       "type": "rss",
       "url": "https://lsvp.com/feed/",
-      "country": "ארה״ב",
+      "country": "ארה\"ב",
       "flag": "🇺🇸",
       "active": true
     },
     {
       "id": "cb_insights_ai",
-      "name": "CB Insights — AI & Autonomy",
+      "name": "CB Insights AI Autonomy",
       "type": "rss",
       "url": "https://www.cbinsights.com/research/report/category/ai/feed/",
       "country": "גלובלי",
@@ -534,7 +668,7 @@
     },
     {
       "id": "cb_insights_robotics",
-      "name": "CB Insights — Robotics",
+      "name": "CB Insights Robotics",
       "type": "rss",
       "url": "https://www.cbinsights.com/research/report/category/robotics/feed/",
       "country": "גלובלי",
@@ -613,6 +747,24 @@
       "id": "li_palantir",
       "name": "Palantir",
       "url": "https://www.linkedin.com/company/palantir-technologies/",
+      "active": true
+    },
+    {
+      "id": "li_helsing",
+      "name": "Helsing AI",
+      "url": "https://www.linkedin.com/company/helsing-ai/",
+      "active": true
+    },
+    {
+      "id": "li_auvsi",
+      "name": "AUVSI",
+      "url": "https://www.linkedin.com/company/auvsi/",
+      "active": true
+    },
+    {
+      "id": "li_asd_europe",
+      "name": "ASD Europe",
+      "url": "https://www.linkedin.com/company/asd-europe/",
       "active": true
     }
   ]
