@@ -660,42 +660,417 @@ CONFERENCES.forEach(c=>{
 const CAT_COLORS={prime:"#3b82f6",niche:"#a855f7",emerging:"#f97316"};
 const CAT_LABELS={prime:"Prime",niche:"Niche",emerging:"Emerging"};
 
-function ConferenceCard({conf}){
+// ── Expo Outreach Engine Data ─────────────────────────────────────────────────
+const EXPO_TARGETS = [
+  // ── דרג א׳: Must-Meet ──
+  { id:"e1", tier:1, name:"Rheinmetall AG", flag:"🇩🇪", country:"גרמניה",
+    poc:"Oliver Mittelsdorf", pocTitle:"Head of C-UAS Systems Integration", linkedin:"https://www.linkedin.com/company/rheinmetall-ag/",
+    offer:"מכירת Aerosentry (TRL 7) כרכיב הגנה אקטיבית משלים למערכות נ״מ (Skyranger) נגד רחפני FPV.",
+    product:"Aerosentry", fitScore:97, theme:"primes",
+    hook:"We noticed Rheinmetall's Skyranger is now deployed across 4 NATO nations — Aerosentry's TRL-7 active defeat layer closes the FPV drone gap that kinetic systems alone cannot solve. 15 minutes in Düsseldorf?",
+    reasons:["Skyranger מחפש שכבת defeat אקטיבית נגד FPV","Aerosentry TRL 7 — מוכן לשילוב מידי","גבעון = ישראלי, NATO-aligned, בלי תחרות ישירה","ניסיון שדה מוכח מאוקטובר 2023"],
+    status:"טרם פנינו", url:"https://www.rheinmetall.com" },
+
+  { id:"e2", tier:1, name:"KNDS Group", flag:"🇪🇺", country:"אירופה",
+    poc:"Jean-Marc Nasr", pocTitle:"VP Business Development",linkedin:"https://www.linkedin.com/company/knds-group/",
+    offer:"מכירת חבילת DFM Power + Aerosentry להארכת זמן שהייה והגנה עצמית של פלטפורמות UGV אוטונומיות.",
+    product:"DFM Power + Aerosentry", fitScore:95, theme:"primes",
+    hook:"KNDS Themis UGV needs persistent power and active C-UAS protection for autonomous missions. Givon's DFM nano-grid + Aerosentry bundle solves both — tested, TRL 7/9. Can we show you the integration spec?",
+    reasons:["Themis UGV צריך power management לאוטונומיה","DFM Power TRL 9 — field-ready","Aerosentry כהגנה עצמית על UGV — ייחודי","EDF funding path — ישראל זכאית"],
+    status:"טרם פנינו", url:"https://www.knds.com" },
+
+  { id:"e3", tier:1, name:"Helsing AI", flag:"🇩🇪", country:"גרמניה",
+    poc:"Gundbert Scherf", pocTitle:"Co-CEO & Chief Product Officer", linkedin:"https://www.linkedin.com/in/gundbert-scherf/",
+    offer:"מכירת רישיונות iCit Vision AI להטמעה בארכיטקטורת התוכנה שלהם לניתוח וידאו טקטי בקצה.",
+    product:"iCit Vision AI", fitScore:94, theme:"primes",
+    hook:"Helsing builds the inference layer — Givon's iCit provides the edge vision agents that run on constrained hardware without cloud dependency. Together: full-stack tactical AI. Coffee at XPONENTIAL?",
+    reasons:["Helsing זקוקה ל-edge vision agents","iCit רץ על חומרה מוגבלת ללא ענן","€600M funding — יש תקציב שילוב","שתי חברות deep-tech — שפה משותפת"],
+    status:"טרם פנינו", url:"https://helsing.ai" },
+
+  { id:"e4", tier:1, name:"Diehl Defence", flag:"🇩🇪", country:"גרמניה",
+    poc:"Helmut Rauch", pocTitle:"Director Strategic Partnerships", linkedin:"https://www.linkedin.com/company/diehl-defence/",
+    offer:"שילוב Guardian Angel כמעטפת הגנה וגיבוי AI למתקנים אסטרטגיים ותשתיות לאומיות.",
+    product:"Guardian Angel", fitScore:91, theme:"primes",
+    hook:"Diehl's IRIS-T protects the perimeter — Guardian Angel's AI layer protects what's inside. Critical infrastructure in Germany now has a two-layer requirement. We built exactly that.",
+    reasons:["גרמניה מחייבת הגנה כפולה על תשתיות","Guardian Angel TRL 7 — מוכן","Diehl כבר מוכרת ל-Bundeswehr","שילוב לא מתחרה — משלים"],
+    status:"טרם פנינו", url:"https://www.diehl.com/defence" },
+
+  { id:"e5", tier:1, name:"Leonardo DRS", flag:"🇺🇸", country:"ארה״ב/אירופה",
+    poc:"Bill Lynn", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/leonardo-drs/",
+    offer:"מכירת Daya IRIS-20 כפלטפורמת ISR ארוכת טווח בעלות מופחתת ב-80-90% לניטור גבולות.",
+    product:"Daya IRIS-20", fitScore:90, theme:"primes",
+    hook:"Leonardo DRS sells ISR to NATO. Daya IRIS-20 delivers 100km coverage at 80% lower cost than existing platforms — exportable, field-proven, and ready for European border programs. 20 minutes?",
+    reasons:["Daya עולה 80% פחות מחלופות","100 ק״מ כיסוי — רמת חטיבה","NATO border programs = שוק מיידי","Leonardo = distribution channel לאירופה"],
+    status:"טרם פנינו", url:"https://www.leonardodrs.com" },
+
+  // ── דרג ב׳: Manufacturing ──
+  { id:"e6", tier:2, name:"BAE Systems", flag:"🇬🇧", country:"בריטניה",
+    poc:"Charles Woodburn", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/bae-systems/",
+    offer:"שירותי ייצור וחומרים מרוכבים בסטנדרט AS9100 עבור מארזים צבאיים ורכיבי מל״טים.",
+    product:"ייצור + חומרים מרוכבים", fitScore:88, theme:"manufacturing",
+    hook:"BAE Systems scales UAS production — Givon's AS9100-certified composite manufacturing in Israel provides a NATO-allied, cost-competitive supply chain node for airframe components. Can we discuss subcon?",
+    reasons:["BAE מגדילה ייצור מל״טים — צריכה sub-contractors","AS9100 certification — סטנדרט דרוש","ישראל = NATO-aligned supply chain","עלות ייצור תחרותית ב-30-40%"],
+    status:"טרם פנינו", url:"https://www.baesystems.com" },
+
+  { id:"e7", tier:2, name:"Honeywell Aerospace", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Vimal Kapur", pocTitle:"CEO Honeywell", linkedin:"https://www.linkedin.com/company/honeywell/",
+    offer:"יכולות עיבוד שבבי מדויק לייעול שרשרת האספקה האירופית.",
+    product:"עיבוד שבבי מדויק", fitScore:82, theme:"manufacturing",
+    hook:"Honeywell Aerospace is expanding European supply chain — Givon's precision machining facility provides certified aerospace components with Israeli quality and European delivery timelines.",
+    reasons:["Honeywell מרחיבה supply chain אירופית","עיבוד שבבי מדויק — specialty של גבעון","תעודות AS9100 + NADCAP","זמן אספקה תחרותי"],
+    status:"טרם פנינו", url:"https://aerospace.honeywell.com" },
+
+  { id:"e8", tier:2, name:"Quantum-Systems", flag:"🇩🇪", country:"גרמניה",
+    poc:"Florian Seibel", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/florianseibel/",
+    offer:"מארזים קלים מחומרים מרוכבים + DFM Power להארכת זמן טיסה של כלי VTOL.",
+    product:"חומרים מרוכבים + DFM", fitScore:87, theme:"manufacturing",
+    hook:"Quantum-Systems' Vector needs longer endurance. Givon's carbon composite housings reduce airframe weight by 18% and DFM nano-grid extends mission time by 40%. Two products, one integration.",
+    reasons:["Vector VTOL מחפש הארכת endurance","הפחתת משקל = זמן טיסה ארוך יותר","DFM Power — תוספת אנרגיה ייעודית","Quantum כבר עובדת עם NATO"],
+    status:"טרם פנינו", url:"https://quantum-systems.com" },
+
+  { id:"e9", tier:2, name:"Airbus Defence", flag:"🇪🇺", country:"אירופה",
+    poc:"Michael Schöllhorn", pocTitle:"CEO Airbus Defence & Space", linkedin:"https://www.linkedin.com/company/airbus-defence-and-space/",
+    offer:"ייצור רכיבי תעופה מחומרים מרוכבים קלים עבור דור המל״טים הבא.",
+    product:"חומרים מרוכבים", fitScore:84, theme:"manufacturing",
+    hook:"Airbus Defence next-gen UAS programs require certified composite suppliers outside traditional European Tier-1s. Givon's facility offers AS9100 quality, Israeli tech-base, and competitive lead times.",
+    reasons:["Airbus מגוונת supply chain","certified composite supplier — נדיר","ישראל = גישה לטכנולוגיה ייחודית","lead times תחרותיים"],
+    status:"טרם פנינו", url:"https://www.airbus.com/en/defence" },
+
+  { id:"e10", tier:2, name:"Milrem Robotics", flag:"🇪🇪", country:"אסטוניה",
+    poc:"Kuldar Väärsi", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/kuldar-vaarsi/",
+    offer:"Aerosentry כמערכת הגנה אינטגרלית על גבי UGV Themis.",
+    product:"Aerosentry on UGV", fitScore:89, theme:"primes",
+    hook:"Milrem's Themis is deployed — but unprotected from FPV drones. Aerosentry mounts directly on Themis with existing power rails and adds active C-UAS protection. Estonia, Latvia, Lithuania are buying now.",
+    reasons:["Themis נפרס ב-NATO — ללא הגנת C-UAS","Aerosentry fits existing power rails","Baltic states — שוק מיידי","שתי חברות NATO-aligned"],
+    status:"טרם פנינו", url:"https://milremrobotics.com" },
+
+  // ── דרג ג׳: Tech Synergy ──
+  { id:"e11", tier:3, name:"Thales Group", flag:"🇫🇷", country:"צרפת",
+    poc:"Patrice Caine", pocTitle:"Chairman & CEO", linkedin:"https://www.linkedin.com/company/thales/",
+    offer:"רישוי תוכנת נחיל Crebain לניהול ציי כלים אוטונומיים.",
+    product:"Crebain Swarm", fitScore:85, theme:"primes",
+    hook:"Thales manages autonomous fleets — Crebain's decentralized swarm intelligence removes the single point of failure. No C2 dependency. Resilient in GPS-denied environments. This is what NATO asked for.",
+    reasons:["Thales מנהלת ציי אוטונומיים","Crebain — decentralized, no SPOF","NATO DIANA validated the concept","רישוי תוכנה = מודל הכנסה לגבעון"],
+    status:"טרם פנינו", url:"https://www.thalesgroup.com" },
+
+  { id:"e12", tier:3, name:"Schiebel", flag:"🇦🇹", country:"אוסטריה",
+    poc:"Hans Georg Schiebel", pocTitle:"Chairman", linkedin:"https://www.linkedin.com/company/schiebel/",
+    offer:"פיילוד ISR מודולרי של Daya לשילוב ב-Camcopter S-100.",
+    product:"Daya ISR Payload", fitScore:83, theme:"primes",
+    hook:"Schiebel's Camcopter is NATO's most deployed MALE UAS. Givon's Daya payload adds persistent wide-area ISR at 80% lower cost than existing EO/IR payloads. Plug-and-play integration.",
+    reasons:["Camcopter — פלטפורמת הבסיס של NATO ISR","Daya payload — modular, plug-and-play","80% חיסכון בעלות payload","Naval + border missions — שוק רחב"],
+    status:"טרם פנינו", url:"https://www.schiebel.net" },
+
+  { id:"e13", tier:3, name:"Teledyne FLIR", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Edwin Roks", pocTitle:"President Teledyne FLIR", linkedin:"https://www.linkedin.com/company/teledyne-flir/",
+    offer:"שכבת אנליטיקה iCit Vision AI מעל חיישנים תרמיים לזיהוי והפללה אוטומטיים.",
+    product:"iCit Vision AI", fitScore:86, theme:"primes",
+    hook:"FLIR sensors see everything — iCit Vision AI interprets it. Automatic target recognition, threat classification, and alert generation on top of your existing thermal cameras. Zero hardware change.",
+    reasons:["FLIR מוכרת sensors — לא analytics","iCit = software layer בלי hardware change","automatic threat classification — ביקוש גובר","שיווק משותף ל-NATO buyers"],
+    status:"טרם פנינו", url:"https://www.teledyneflir.com" },
+
+  { id:"e14", tier:3, name:"u-blox", flag:"🇨🇭", country:"שווייץ",
+    poc:"Stephan Zizala", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/u-blox/",
+    offer:"Cyberbee כפתרון ניווט מבוסס ראייה ממוחשבת בסביבות חסומות GPS.",
+    product:"Cyberbee GNSS-denied nav", fitScore:80, theme:"supply",
+    hook:"u-blox GNSS modules fail in GPS-denied environments. Cyberbee's visual navigation fills that gap — works in tunnels, urban canyons, and under active jamming. Complementary, not competitive.",
+    reasons:["GNSS jamming — בעיה גוברת ב-Ukraine","Cyberbee = visual nav ללא GPS","u-blox = distribution channel ענק","complementary — לא מתחרה"],
+    status:"טרם פנינו", url:"https://www.u-blox.com" },
+
+  { id:"e15", tier:3, name:"Echodyne", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Eben Frankenberg", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/echodyne/",
+    offer:"מכירה משותפת של חבילת הגנה — מכ״ם Echodyne + AerOS של גבעון.",
+    product:"AerOS + Echodyne Radar", fitScore:84, theme:"primes",
+    hook:"Echodyne radar detects — AerOS decides and defeats. Together: detect-to-defeat in under 3 seconds. No other vendor offers this integration. Joint go-to-market for European C-UAS programs.",
+    reasons:["Echodyne radar + AerOS = complete solution","detect-to-defeat בפחות מ-3 שניות","joint GTM — כוח מכירות כפול","אין אינטגרציה כזו בשוק"],
+    status:"טרם פנינו", url:"https://echodyne.com" },
+
+  // ── דרג ד׳: Strategy & Growth ──
+  { id:"e16", tier:4, name:"Indra Sistemas", flag:"🇪🇸", country:"ספרד",
+    poc:"Marc Murtra", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/indra/",
+    offer:"מכירת Sky Fort להגנת נקודה על תשתיות לאומיות ומתקנים רגישים בספרד.",
+    product:"Sky Fort", fitScore:86, theme:"primes",
+    hook:"Spain's critical infrastructure faces drone threats — Sky Fort provides point defense with AI-driven response. Indra is the channel to Spanish MOD and NATO Southern Command. Let's discuss distribution.",
+    reasons:["Indra = שער לשוק ספרדי + דרום NATO","Sky Fort TRL 5 — מוכן לפיילוט","Spanish MOD budget גדל","תשתיות אנרגיה + נמלים — שוק ברור"],
+    status:"טרם פנינו", url:"https://www.indracompany.com" },
+
+  { id:"e17", tier:4, name:"Kongsberg", flag:"🇳🇴", country:"נורווגיה",
+    poc:"Geir Håøy", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/kongsberg-gruppen/",
+    offer:"GuaRdF לניטור ומעקב RF המוני עבור Homeland Security.",
+    product:"GuaRdF RF sensing", fitScore:85, theme:"primes",
+    hook:"Kongsberg's NASAMS protects the air — GuaRdF protects the RF spectrum. Passive RF monitoring, drone detection, and protocol identification. Complementary layer for Kongsberg's existing customers.",
+    reasons:["Kongsberg NASAMS customers = GuaRdF customers","RF spectrum monitoring — פער קיים","passive system — ללא אינטגרציה מורכבת","Norway + Nordic market = entrance"],
+    status:"טרם פנינו", url:"https://www.kongsberg.com" },
+
+  { id:"e18", tier:4, name:"EDGE Group", flag:"🇦🇪", country:"איחוד האמירויות",
+    poc:"Faisal Al Bannai", pocTitle:"Secretary General EDGE", linkedin:"https://www.linkedin.com/company/edge-group/",
+    offer:"חבילת פתרונות גבעון (ISR + C-UAS + Energy) לשוק ה-GCC.",
+    product:"Ecosystem Bundle", fitScore:92, theme:"primes",
+    hook:"EDGE Group is building the UAE defense ecosystem. Givon's ISR + C-UAS + Energy bundle addresses three of EDGE's top procurement priorities for 2026. Abraham Accords make this a natural partnership.",
+    reasons:["Abraham Accords = מסלול ישיר","ISR + C-UAS + Energy — 3 צרכים של EDGE","UAE spending $20B+ on defense tech","גבעון = ישראלי, proven, exportable"],
+    status:"טרם פנינו", url:"https://www.edgegroup.ae" },
+
+  { id:"e19", tier:4, name:"Shield Capital", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Philip Bilden", pocTitle:"Managing Partner", linkedin:"https://www.linkedin.com/company/shield-capital/",
+    offer:"הצגת התקדמות Crebain + Aerosentry למכירת חזון ה-Next-Gen Prime.",
+    product:"Equity Partnership", fitScore:93, theme:"primes",
+    hook:"Shield Capital's Fund III targets exactly what Givon has built: dual-use, counter-UAS, and swarm AI with DoD validation. We have TRL 7 hardware and NATO-tested software. 30 minutes for a portfolio review?",
+    reasons:["Shield Fund III $250M — תואם בדיוק","Aerosentry TRL 7 + Crebain TRL 5","NATO + DoD validation","timing — window לפני next round"],
+    status:"טרם פנינו", url:"https://www.shieldcap.com" },
+
+  { id:"e20", tier:4, name:"NATO DIANA", flag:"🏛️", country:"נאט״ו",
+    poc:"Diana Kelley", pocTitle:"Executive Director", linkedin:"https://www.linkedin.com/company/nato-diana/",
+    offer:"הצגת יכולות הנחיל המבוזר של Crebain לאתגרי חדשנות ומכרזים עתידיים.",
+    product:"Crebain Swarm", fitScore:90, theme:"primes",
+    hook:"NATO DIANA's next challenge targets resilient autonomous swarms. Crebain's decentralized architecture with no single point of failure is exactly what the challenge brief describes. Let's align before the call opens.",
+    reasons:["DIANA next challenge = swarm resilience","Crebain — decentralized, no SPOF","ישראל זכאית ל-DIANA challenges","€3.5M + NATO validation = game changer"],
+    status:"טרם פנינו", url:"https://www.diana.nato.int" },
+];
+
+const TIER_CONFIG = {
+  1:{ label:"Alpha — Must Meet", color:"#ef4444", bg:"#ef444412", icon:"🔴" },
+  2:{ label:"Strategic Partners", color:"#f97316", bg:"#f9731612", icon:"🟠" },
+  3:{ label:"Tech Synergy", color:"#eab308", bg:"#eab30812", icon:"🟡" },
+  4:{ label:"Strategy & Growth", color:"#64748b", bg:"#64748b12", icon:"⚪" },
+};
+const THEME_LABELS = { primes:"🎯 Primes & Systems", manufacturing:"🏭 Manufacturing & Materials", supply:"⚙️ Supply Chain" };
+const STATUS_FLOW = ["טרם פנינו","נשלחה פנייה","נקבעה פגישה"];
+const STATUS_COLORS = {"טרם פנינו":"#475569","נשלחה פנייה":"#f97316","נקבעה פגישה":"#22c55e"};
+
+function ExpoTargetCard({target, onStatusChange}) {
+  const [expanded, setExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const tier = TIER_CONFIG[target.tier];
+  const sc = STATUS_COLORS[target.status];
+  const fc = fitCol(target.fitScore);
+
+  const copyHook = () => {
+    navigator.clipboard.writeText(target.hook);
+    setCopied(true);
+    setTimeout(()=>setCopied(false), 2000);
+  };
+
+  const nextStatus = () => {
+    const idx = STATUS_FLOW.indexOf(target.status);
+    if (idx < STATUS_FLOW.length-1) onStatusChange(target.id, STATUS_FLOW[idx+1]);
+  };
+
+  return (
+    <div style={{background:"#0f172a",borderRadius:10,padding:16,border:`1px solid ${tier.color}20`,borderRight:`3px solid ${tier.color}`,display:"flex",flexDirection:"column",gap:10}}>
+      {/* Header */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+        <div style={{flex:1}}>
+          <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:5,flexWrap:"wrap"}}>
+            <span style={{fontSize:14}}>{target.flag}</span>
+            <span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:tier.bg,border:`1px solid ${tier.color}40`,color:tier.color}}>{tier.icon} {tier.label}</span>
+            <span style={{fontSize:"9px",padding:"2px 7px",borderRadius:3,background:`${sc}15`,border:`1px solid ${sc}40`,color:sc,fontWeight:700}}>{target.status}</span>
+          </div>
+          <div style={{fontSize:"14px",fontWeight:800,color:"#f1f5f9",marginBottom:2}}>{target.name}</div>
+          <div style={{fontSize:"10px",color:"#475569"}}>{target.country} · {target.product}</div>
+        </div>
+        <div style={{width:38,height:38,borderRadius:"50%",border:`2px solid ${fc}`,background:`${fc}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"12px",fontWeight:800,color:fc,fontFamily:"Roboto Mono,monospace",flexShrink:0}}>{target.fitScore}</div>
+      </div>
+
+      {/* POC */}
+      <div style={{background:"#0a0f1e",border:"1px solid #1e293b",borderRadius:7,padding:"8px 11px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <div>
+          <div style={{fontSize:"9px",color:"#475569",fontWeight:700,marginBottom:2}}>👤 איש קשר</div>
+          <div style={{fontSize:"12px",fontWeight:700,color:"#e2e8f0"}}>{target.poc}</div>
+          <div style={{fontSize:"10px",color:"#64748b"}}>{target.pocTitle}</div>
+        </div>
+        <a href={target.linkedin} target="_blank" rel="noreferrer" onClick={e=>e.stopPropagation()} style={{background:"#1e3a5f",border:"1px solid #3b82f640",color:"#60a5fa",padding:"5px 10px",borderRadius:6,fontSize:"10px",fontWeight:700,textDecoration:"none"}}>LinkedIn ↗</a>
+      </div>
+
+      {/* Offer */}
+      <div style={{background:"linear-gradient(135deg,#052e16,#064e3b)",border:"1px solid #16a34a25",borderRadius:7,padding:"8px 11px"}}>
+        <div style={{fontSize:"9px",color:"#4ade80",fontWeight:700,marginBottom:3}}>🎯 מה מציעים</div>
+        <div style={{fontSize:"11px",color:"#86efac",lineHeight:1.55}}>{target.offer}</div>
+      </div>
+
+      {/* Fit Reasons */}
+      <div style={{background:"#0a0f1e",borderRadius:7,padding:"8px 11px"}}>
+        <div style={{fontSize:"9px",color:fc,fontWeight:700,marginBottom:5}}>✅ למה Fit {target.fitScore}</div>
+        {target.reasons.map((r,i)=>(
+          <div key={i} style={{fontSize:"10px",color:"#94a3b8",padding:"2px 0",borderBottom:i<target.reasons.length-1?"1px solid #1e293b":"none",display:"flex",gap:5}}>
+            <span style={{color:fc}}>·</span>{r}
+          </div>
+        ))}
+      </div>
+
+      {/* Hook — expandable */}
+      {expanded && (
+        <div style={{background:"#0c1a2e",border:"1px solid #1e40af30",borderRadius:7,padding:"10px 12px"}}>
+          <div style={{fontSize:"9px",color:"#60a5fa",fontWeight:700,marginBottom:6}}>💬 Strategic Hook — מוכן להעתקה</div>
+          <div style={{fontSize:"11px",color:"#cbd5e1",lineHeight:1.65,fontStyle:"italic",marginBottom:8}}>"{target.hook}"</div>
+          <button onClick={copyHook} style={{background:copied?"#16a34a":"#1e3a5f",border:`1px solid ${copied?"#22c55e":"#3b82f6"}40`,color:copied?"#4ade80":"#60a5fa",padding:"5px 14px",borderRadius:5,fontSize:"10px",fontWeight:700,cursor:"pointer",width:"100%"}}>
+            {copied?"✓ הועתק!":"📋 העתק Hook"}
+          </button>
+        </div>
+      )}
+
+      {/* Actions */}
+      <div style={{display:"flex",gap:6,borderTop:"1px solid #1e293b",paddingTop:8}}>
+        <button onClick={()=>setExpanded(!expanded)} style={{flex:1,background:"transparent",border:"1px solid #1e293b",color:"#475569",padding:"5px",borderRadius:6,fontSize:"10px",cursor:"pointer"}}>
+          {expanded?"▲ סגור":"💬 Hook"}
+        </button>
+        {target.status !== "נקבעה פגישה" && (
+          <button onClick={()=>nextStatus()} style={{flex:2,background:`${STATUS_COLORS[STATUS_FLOW[STATUS_FLOW.indexOf(target.status)+1]]}18`,border:`1px solid ${STATUS_COLORS[STATUS_FLOW[STATUS_FLOW.indexOf(target.status)+1]]}40`,color:STATUS_COLORS[STATUS_FLOW[STATUS_FLOW.indexOf(target.status)+1]],padding:"5px 10px",borderRadius:6,fontSize:"10px",fontWeight:700,cursor:"pointer"}}>
+            → {STATUS_FLOW[STATUS_FLOW.indexOf(target.status)+1]}
+          </button>
+        )}
+        {target.status === "נקבעה פגישה" && (
+          <div style={{flex:2,background:"#16a34a18",border:"1px solid #22c55e40",color:"#4ade80",padding:"5px 10px",borderRadius:6,fontSize:"10px",fontWeight:700,textAlign:"center"}}>✓ פגישה בלו״ז!</div>
+        )}
+        <a href={target.url} target="_blank" rel="noreferrer" style={{background:"transparent",border:"1px solid #1e293b",color:"#475569",padding:"5px 10px",borderRadius:6,fontSize:"10px",textDecoration:"none"}}>↗</a>
+      </div>
+    </div>
+  );
+}
+
+function ExpoOutreachEngine({onClose}) {
+  const [targets, setTargets] = useState(EXPO_TARGETS);
+  const [themeFilter, setThemeFilter] = useState("all");
+  const [tierFilter, setTierFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const updateStatus = (id, newStatus) => {
+    setTargets(prev => prev.map(t => t.id===id ? {...t, status:newStatus} : t));
+  };
+
+  const filtered = targets.filter(t => {
+    if(themeFilter!=="all" && t.theme!==themeFilter) return false;
+    if(tierFilter!=="all" && t.tier!==parseInt(tierFilter)) return false;
+    if(statusFilter!=="all" && t.status!==statusFilter) return false;
+    return true;
+  }).sort((a,b)=>b.fitScore-a.fitScore);
+
+  const meetings = targets.filter(t=>t.status==="נקבעה פגישה").length;
+  const sent = targets.filter(t=>t.status==="נשלחה פנייה").length;
+  const pending = targets.filter(t=>t.status==="טרם פנינו").length;
+  const daysToConf = Math.ceil((new Date("2026-03-24") - new Date()) / (1000*60*60*24));
+
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(2,6,23,0.97)",zIndex:300,overflowY:"auto",direction:"rtl"}}>
+      <div style={{maxWidth:1300,margin:"0 auto",padding:"24px"}}>
+        {/* Header */}
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
+          <div>
+            <div style={{fontSize:"10px",color:"#f97316",fontWeight:700,letterSpacing:"0.15em",marginBottom:4}}>🎪 XPONENTIAL EUROPE 2026 · DÜSSELDORF</div>
+            <div style={{fontSize:"22px",fontWeight:800,color:"#f1f5f9",marginBottom:3}}>🎯 הכנה לקראת הכנס — Outreach Engine</div>
+            <div style={{fontSize:"12px",color:"#475569"}}>{targets.length} מטרות · {daysToConf} ימים לכנס · 24–26 מרץ 2026</div>
+          </div>
+          <button onClick={onClose} style={{background:"transparent",border:"1px solid #1e293b",color:"#475569",padding:"8px 16px",borderRadius:8,fontSize:"12px",cursor:"pointer"}}>✕ חזור לכנסים</button>
+        </div>
+
+        {/* Stats */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(120px,1fr))",gap:10,marginBottom:20}}>
+          {[
+            ["🗓️ ימים לכנס", daysToConf, "#f97316"],
+            ["🎯 מטרות", targets.length, "#3b82f6"],
+            ["📬 נשלחה פנייה", sent, "#f97316"],
+            ["✅ נקבעה פגישה", meetings, "#22c55e"],
+            ["⏳ טרם פנינו", pending, "#ef4444"],
+          ].map(([l,v,c])=>(
+            <div key={l} style={{background:"#0a0f1e",border:`1px solid ${c}20`,borderTop:`2px solid ${c}`,borderRadius:8,padding:"12px",textAlign:"center"}}>
+              <div style={{fontSize:"22px",fontWeight:800,color:c,fontFamily:"Roboto Mono,monospace",lineHeight:1}}>{v}</div>
+              <div style={{fontSize:"9px",color:"#334155",marginTop:3}}>{l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Progress bar */}
+        <div style={{background:"#0a0f1e",border:"1px solid #1e293b",borderRadius:8,padding:"12px 16px",marginBottom:20}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{fontSize:"10px",color:"#475569",fontWeight:700}}>התקדמות Outreach</span>
+            <span style={{fontSize:"10px",color:"#22c55e",fontFamily:"Roboto Mono,monospace"}}>{Math.round((meetings/targets.length)*100)}% פגישות נסגרו</span>
+          </div>
+          <div style={{background:"#1e293b",borderRadius:4,height:8,display:"flex",overflow:"hidden"}}>
+            <div style={{width:`${(meetings/targets.length)*100}%`,background:"#22c55e",transition:"width 0.4s"}}/>
+            <div style={{width:`${(sent/targets.length)*100}%`,background:"#f97316",transition:"width 0.4s"}}/>
+          </div>
+          <div style={{display:"flex",gap:12,marginTop:6}}>
+            {[["#22c55e","נקבעה פגישה"],["#f97316","נשלחה פנייה"],["#475569","טרם פנינו"]].map(([c,l])=>(
+              <div key={l} style={{display:"flex",gap:4,alignItems:"center"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:c}}/>
+                <span style={{fontSize:"9px",color:"#475569"}}>{l}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap",alignItems:"center"}}>
+          <span style={{fontSize:"10px",color:"#334155"}}>דרג:</span>
+          {[["all","הכל"],["1","🔴 Alpha"],["2","🟠 Strategic"],["3","🟡 Tech"],["4","⚪ Strategy"]].map(([v,l])=>(
+            <button key={v} onClick={()=>setTierFilter(v)} style={{background:tierFilter===v?"#1e293b":"transparent",border:`1px solid ${tierFilter===v?"#475569":"#1e293b"}`,color:tierFilter===v?"#f1f5f9":"#475569",padding:"4px 10px",borderRadius:5,fontSize:"10px",cursor:"pointer"}}>{l}</button>
+          ))}
+          <div style={{width:1,height:14,background:"#1e293b"}}/>
+          <span style={{fontSize:"10px",color:"#334155"}}>זרוע:</span>
+          {[["all","הכל"],["primes","🎯 Primes"],["manufacturing","🏭 Manufacturing"],["supply","⚙️ Supply"]].map(([v,l])=>(
+            <button key={v} onClick={()=>setThemeFilter(v)} style={{background:themeFilter===v?"#1e3a5f":"transparent",border:`1px solid ${themeFilter===v?"#3b82f6":"#1e293b"}`,color:themeFilter===v?"#60a5fa":"#475569",padding:"4px 10px",borderRadius:5,fontSize:"10px",cursor:"pointer"}}>{l}</button>
+          ))}
+          <div style={{width:1,height:14,background:"#1e293b"}}/>
+          <span style={{fontSize:"10px",color:"#334155"}}>סטטוס:</span>
+          {[["all","הכל"],["טרם פנינו","⏳"],["נשלחה פנייה","📬"],["נקבעה פגישה","✅"]].map(([v,l])=>(
+            <button key={v} onClick={()=>setStatusFilter(v)} style={{background:statusFilter===v?"#1e293b":"transparent",border:`1px solid ${statusFilter===v?"#475569":"#1e293b"}`,color:statusFilter===v?"#f1f5f9":"#475569",padding:"4px 10px",borderRadius:5,fontSize:"10px",cursor:"pointer"}}>{l}</button>
+          ))}
+        </div>
+
+        {/* Cards grid */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(380px,1fr))",gap:14}}>
+          {filtered.map(t=><ExpoTargetCard key={t.id} target={t} onStatusChange={updateStatus}/>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConferenceCard({conf, onExpoClick}){
   const [h,setH]=useState(false);
   const color=CAT_COLORS[conf.category]||"#475569";
   const days=conf.daysAway;
   const isPast=days!==null&&days<0;
   const isSoon=days!==null&&days<=60&&days>=0;
+  const isXPO = conf.id==="c13";
   return (
-    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} onClick={()=>conf.url&&window.open(conf.url,"_blank")}
-      style={{background:"#0f172a",borderRadius:10,padding:16,border:`1px solid ${color}20`,borderTop:`3px solid ${isPast?"#334155":color}`,cursor:"pointer",transform:h?"translateY(-2px)":"none",boxShadow:h?`0 6px 20px ${color}20`:"none",transition:"transform .15s, box-shadow .15s",opacity:isPast?0.5:1}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
-        <div style={{flex:1}}>
-          <div style={{display:"flex",gap:5,marginBottom:5,flexWrap:"wrap",alignItems:"center"}}>
-            <span style={{fontSize:14}}>{conf.flag}</span>
-            <span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:`${color}15`,border:`1px solid ${color}40`,color,fontFamily:"Roboto Mono,monospace"}}>{CAT_LABELS[conf.category]}</span>
-            {isSoon&&<span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:"#22c55e15",border:"1px solid #22c55e40",color:"#22c55e"}}>בקרוב!</span>}
-            {isPast&&<span style={{fontSize:"9px",color:"#334155"}}>עבר</span>}
+    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+      style={{background:"#0f172a",borderRadius:10,padding:16,border:`1px solid ${isXPO?"#f97316":color}20`,borderTop:`3px solid ${isPast?"#334155":isXPO?"#f97316":color}`,transition:"transform .15s, box-shadow .15s",opacity:isPast?0.5:1,transform:h?"translateY(-2px)":"none",boxShadow:h?`0 6px 20px ${isXPO?"#f97316":color}20`:"none"}}>
+      <div onClick={()=>conf.url&&window.open(conf.url,"_blank")} style={{cursor:"pointer"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
+          <div style={{flex:1}}>
+            <div style={{display:"flex",gap:5,marginBottom:5,flexWrap:"wrap",alignItems:"center"}}>
+              <span style={{fontSize:14}}>{conf.flag}</span>
+              <span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:`${color}15`,border:`1px solid ${color}40`,color,fontFamily:"Roboto Mono,monospace"}}>{CAT_LABELS[conf.category]}</span>
+              {isSoon&&<span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:"#22c55e15",border:"1px solid #22c55e40",color:"#22c55e"}}>בקרוב!</span>}
+              {isPast&&<span style={{fontSize:"9px",color:"#334155"}}>עבר</span>}
+              {isXPO&&<span style={{fontSize:"9px",fontWeight:700,padding:"2px 6px",borderRadius:3,background:"#f9731615",border:"1px solid #f9731640",color:"#f97316"}}>🎯 מוכן לכנס</span>}
+            </div>
+            <div style={{fontSize:"13px",fontWeight:800,color:"#f1f5f9",marginBottom:2}}>{conf.name}</div>
+            <div style={{fontSize:"10px",color:"#475569"}}>{conf.location}</div>
           </div>
-          <div style={{fontSize:"13px",fontWeight:800,color:"#f1f5f9",marginBottom:2}}>{conf.name}</div>
-          <div style={{fontSize:"10px",color:"#475569"}}>{conf.location}</div>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3}}>
+            <div style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${fitCol(conf.relevance)}`,background:`${fitCol(conf.relevance)}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"11px",fontWeight:800,color:fitCol(conf.relevance),fontFamily:"Roboto Mono,monospace"}}>{conf.relevance}</div>
+            <div style={{fontSize:"8px",color:"#334155"}}>relevance</div>
+          </div>
         </div>
-        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3}}>
-          <div style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${fitCol(conf.relevance)}`,background:`${fitCol(conf.relevance)}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"11px",fontWeight:800,color:fitCol(conf.relevance),fontFamily:"Roboto Mono,monospace"}}>{conf.relevance}</div>
-          <div style={{fontSize:"8px",color:"#334155"}}>relevance</div>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+          <span style={{fontSize:"11px",color:"#94a3b8",fontFamily:"Roboto Mono,monospace"}}>{conf.date}</span>
+          {days!==null&&days>=0&&<span style={{fontSize:"10px",color:days<=60?"#f97316":"#475569",fontFamily:"Roboto Mono,monospace",fontWeight:days<=60?700:400}}>{days} ימים</span>}
+        </div>
+        <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
+          {conf.domains.map(d=><span key={d} style={{fontSize:"9px",background:"#1e293b",color:"#64748b",padding:"2px 6px",borderRadius:3,fontFamily:"Roboto Mono,monospace"}}>{getDomainIcon(d)} {d}</span>)}
+        </div>
+        <div style={{background:"linear-gradient(135deg,#052e16,#064e3b)",border:"1px solid #16a34a25",borderRadius:6,padding:"6px 10px",marginBottom:isXPO?10:0}}>
+          <div style={{fontSize:"9px",color:"#4ade80",fontWeight:700,marginBottom:2}}>🎯 למה ללכת</div>
+          <div style={{fontSize:"10px",color:"#86efac",lineHeight:1.5}}>{conf.why}</div>
         </div>
       </div>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-        <span style={{fontSize:"11px",color:"#94a3b8",fontFamily:"Roboto Mono,monospace"}}>{conf.date}</span>
-        {days!==null&&days>=0&&<span style={{fontSize:"10px",color:days<=60?"#f97316":"#475569",fontFamily:"Roboto Mono,monospace",fontWeight:days<=60?700:400}}>{days} ימים</span>}
-      </div>
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>
-        {conf.domains.map(d=><span key={d} style={{fontSize:"9px",background:"#1e293b",color:"#64748b",padding:"2px 6px",borderRadius:3,fontFamily:"Roboto Mono,monospace"}}>{getDomainIcon(d)} {d}</span>)}
-      </div>
-      <div style={{background:"linear-gradient(135deg,#052e16,#064e3b)",border:"1px solid #16a34a25",borderRadius:6,padding:"6px 10px"}}>
-        <div style={{fontSize:"9px",color:"#4ade80",fontWeight:700,marginBottom:2}}>🎯 למה ללכת</div>
-        <div style={{fontSize:"10px",color:"#86efac",lineHeight:1.5}}>{conf.why}</div>
-      </div>
+      {isXPO&&(
+        <button onClick={e=>{e.stopPropagation();onExpoClick();}}
+          style={{width:"100%",background:"linear-gradient(135deg,#431407,#7c2d12)",border:"1px solid #f9731640",borderRadius:8,padding:"10px",color:"#fed7aa",fontSize:"12px",fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,letterSpacing:"0.05em"}}>
+          🎯 הכנה לקראת הכנס — 20 מטרות · Outreach Engine
+        </button>
+      )}
     </div>
   );
 }
@@ -704,6 +1079,7 @@ function ConferencesView(){
   const [catFilter,setCatFilter]=useState("all");
   const [showPast,setShowPast]=useState(false);
   const [domainFilter,setDomainFilter]=useState("all");
+  const [showExpo,setShowExpo]=useState(false);
   const allDomains=[...new Set(CONFERENCES.flatMap(c=>c.domains))].sort();
   const filtered=CONFERENCES.filter(c=>{
     if(!showPast&&c.daysAway!==null&&c.daysAway<0)return false;
@@ -712,6 +1088,9 @@ function ConferencesView(){
     return true;
   }).sort((a,b)=>(a.daysAway||9999)-(b.daysAway||9999));
   const nextConf=CONFERENCES.filter(c=>c.daysAway>0).sort((a,b)=>a.daysAway-b.daysAway)[0];
+
+  if(showExpo) return <ExpoOutreachEngine onClose={()=>setShowExpo(false)}/>;
+
   return (
     <div style={{maxWidth:1300,margin:"0 auto",padding:"24px"}}>
       <div style={{marginBottom:16}}>
@@ -754,7 +1133,7 @@ function ConferencesView(){
         <button onClick={()=>setShowPast(!showPast)} style={{background:showPast?"#1e293b":"transparent",border:"1px solid #1e293b",color:showPast?"#f1f5f9":"#475569",padding:"4px 10px",borderRadius:5,fontSize:"10px",cursor:"pointer"}}>{showPast?"הסתר עבר":"הצג עבר"}</button>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))",gap:12}}>
-        {filtered.map(c=><ConferenceCard key={c.id} conf={c}/>)}
+        {filtered.map(c=><ConferenceCard key={c.id} conf={c} onExpoClick={()=>setShowExpo(true)}/>)}
       </div>
     </div>
   );
