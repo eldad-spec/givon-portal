@@ -25,6 +25,6 @@
 ## הרצה מקומית
 ```
 npm install
-npm start
+npm start 
 ```
-ח
+ח 
