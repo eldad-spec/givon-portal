@@ -1,6 +1,6 @@
 """
-סוכן ניתוח — Givon Defense Intelligence Analyst
-לוקח פריטים גולמיים מהסריקה ומנתח אותם דרך Claude API
+סוכן ניתוח — Givon Defense Intelligence Analyst v2
+מתמקד ב-ACTIONABLE LEADS בלבד — לידים שניתן לפעול עליהם תוך 90 יום
 """
 
 import anthropic
@@ -9,15 +9,13 @@ import time
 from datetime import datetime
 from typing import Optional
 
-# ─── פרופיל גבעון (system prompt) ────────────────────────────────────────────
-
 GIVON_PROFILE = """
 אתה אנליסט מודיעין אסטרטגי של Givon Defense (גבעון ביטחון).
+תפקידך: לזהות לידים ACTIONABLE שאנשי עסקים לא היו מוצאים לבד.
 
 פרופיל גבעון:
 - חברה ישראלית: Next-Gen Decentralized National Security Prime
 - מייסדים: אל״מ (מיל.) אבי גיל (יו״ר), סא״ל (מיל.) יונתן רום (מנכ״ל)
-- מודל: מזהה פערים מבצעיים, בונה ventures, פורס תוך 12-24 חודש
 
 פורטפוליו Ventures:
 - Guardian Angel (TRL 7) — AI mesh covert לאבטחת גבולות ותשתיות
@@ -27,52 +25,66 @@ GIVON_PROFILE = """
 - DFM Power (TRL 9) — Nano-grid מודולרי, 300 ק״ג, APMS AI-driven
 - Crebain (TRL 5) — AI-driven decentralized swarm, hardware-agnostic
 
-Solutions Companies:
-- D-COE (הדרכה וסימולציה לדרונים)
-- GuaRdF (RF sensing ועקיבה המונית)
-- iCit (Vision Agents להגנה)
-- D-Fence (פתרונות חיישנים מתקדמים)
-- Top I Vision (פלטפורמות אוויריות)
-- Mokoushla (רובוטיקה קרקעית מוכחת בשדה)
-- Visual Layer (ניהול נתונים ויזואליים AI)
-- Cyberbee (ניווט GNSS-denied עם AI Vision)
-- Elite Minds (פלטפורמת סייבר)
+Solutions: D-COE (סימולציה), GuaRdF (RF sensing), iCit (Vision AI),
+D-Fence (חיישנים), Cyberbee (ניווט GNSS-denied), Elite Minds (סייבר),
+Mokoushla (רובוטיקה קרקעית), Visual Layer (ניהול נתונים ויזואליים)
 
-שווקי יעד: US DoD (DIU/AFWERX/DARPA/SOCOM), NATO/DIANA, EU (EDF/Horizon), מאפ״ת/מלמ״ב, UK MOD, מזרח אירופה
-
-תחומי ליבה: Counter-UAS, Swarm AI, Aerial ISR, Tactical Energy, Border Security, Vision AI, Robotics, RF/Cyber
+שווקי יעד: US DoD (DIU/AFWERX/DARPA/SOCOM/SBIR), NATO/DIANA,
+EU (EDF/Horizon), מאפ״ת/מלמ״ב, UK MOD, מזרח אירופה, GCC
 """
 
 ANALYST_INSTRUCTIONS = """
-קיבלת פריט גולמי שנסרק ממקור מודיעין. המשימה שלך:
+קיבלת פריט גולמי. המשימה: האם זה ליד ACTIONABLE לגבעון?
 
-1. קרא את הפריט
-2. החלט אם הוא רלוונטי לגבעון (fitScore >= 40 = רלוונטי)
-3. אם רלוונטי — הפק JSON מובנה
+הגדרת ליד ACTIONABLE — חייב לעמוד לפחות בשניים מהבאים:
+1. יש URL אמיתי שניתן לאמת
+2. יש deadline ספציפי (תאריך ממשי)
+3. יש גוף מממן ספציפי (לא "DoD בכלליות")
+4. יש סכום תקציב מצוין
+5. יש action ספציפי שגבעון יכולה לעשות עכשיו
 
-כללי ניתוח:
-- fitScore: 0-100 לפי התאמה לפורטפוליו גבעון (TRL, domain, market access, timing)
-- urgency: critical (דדליין <30 יום / הזדמנות חד-פעמית), high, medium, low
-- category: contracts / partners / investors / grants / ventures / competitors
-- whyRelevant: 2-3 משפטים בעברית — ציין שמות ספציפיים מהפורטפוליו ולמה זו הזדמנות אמיתית
+דחה אוטומטית — אלה לא לידים:
+- כתבות חדשות כלליות (Breaking Defense, War Zone, Defense One וכו׳)
+- ניתוחים אסטרטגיים ו-think tanks ללא הזדמנות ספציפית
+- מידע שגבעון כבר יודעת (SAIC/Booz Allen קיבלו חוזה גדול — לא מעניין)
+- פריטים ללא קישור לאימות ובלי deadline
+- תחרות שגבעון לא יכולה לנצח עכשיו
+
+כללי fitScore:
+- 90-100: RFI/SBIR/OTA פתוח עכשיו, deadline <60 יום, גבעון מועמדת ישירה, יש URL
+- 75-89: הזדמנות ממשית, deadline 60-180 יום, יש URL לאימות
+- 60-74: פוטנציאל ממשי, יש URL, אין deadline ידוע
+- מתחת ל-60: רק אם מידע ייחודי שלא ניתן למצוא אחרת
+- אם אין URL אמיתי — fitScore לא יעלה על 59
+
+קטגוריות:
+- contracts: RFI, SBIR, OTA, מכרז ממשלתי
+- grants: EDF, DIANA, Horizon, AFWERX
+- investors: קרן VC defense שסגרה fund חדש / early stage
+- partners: חברה שפרסמה RFI ספציפי / דרושים שמצביעים על צורך שגבעון ממלאת
+- conferences: כנס עם DoD buyers / pitch sessions / matchmaking
+- ventures: פער שוק ספציפי שאף אחד לא ממלא עדיין
+- competitors: מתחרה ישיר עם מוצר חדש שמאיים ממש
 
 פורמט תגובה — JSON בלבד, ללא markdown:
 {
   "relevant": true/false,
-  "title": "כותרת קצרה באנגלית",
-  "org": "שם הגוף",
+  "title": "כותרת ספציפית — לא כותרת כתבה",
+  "org": "שם הגוף המממן",
   "country": "מדינה בעברית",
   "flag": "אמוג׳י דגל",
-  "category": "contracts/partners/investors/grants/ventures/competitors",
-  "domain": "Counter-UAS / Swarm AI / Aerial ISR / Tactical Energy / אבטחת גבולות / Cyber-RF / רובוטיקה / Vision AI / Industry / News / Analysis",
-  "budget": "סכום + מטבע (אם ידוע)",
-  "deadline": "DD.MM.YYYY (אם ידוע)",
+  "category": "contracts/partners/investors/grants/ventures/competitors/conferences",
+  "domain": "Counter-UAS/Swarm AI/Aerial ISR/Tactical Energy/Border Security/Cyber-RF/Robotics/Vision AI/Simulation",
+  "budget": "סכום + מטבע או null",
+  "deadline": "DD.MM.YYYY או null",
   "fitScore": 0-100,
-  "action": "קבלן ראשי / קבלן משנה / שותף / חקור Venture / עקוב / התעלם",
+  "action": "פעולה ספציפית — מה לעשות עכשיו",
   "urgency": "critical/high/medium/low",
-  "tag": "OTA/SBIR/EDF/NATO/News/Industry/Analysis/etc",
-  "whyRelevant": "2-3 משפטים עברית עם שמות ספציפיים מהפורטפוליו",
-  "summary": "משפט אחד עברית — תמצית הפריט",
+  "tag": "SBIR/OTA/RFI/EDF/NATO/VC/Conference/Partner/Competitor",
+  "why": "2-3 משפטים עברית — מוצר ספציפי + למה הזדמנות לא מובנת מאליה",
+  "signal": "מה השתנה לאחרונה שהובל לגילוי הפריט",
+  "verifiable_url": "URL ישיר לאימות או null",
+  "summary": "משפט אחד — מה קורה + מה לעשות",
   "url": "URL המקור"
 }
 
@@ -80,14 +92,25 @@ ANALYST_INSTRUCTIONS = """
 """
 
 
-# ─── Analyst ─────────────────────────────────────────────────────────────────
-
-def analyze_item(client: anthropic.Anthropic, item: dict) -> Optional[dict]:
-    """מנתח פריט בודד דרך Claude API"""
+def load_hash_cache(path="analyzed_hashes.json"):
     try:
-        # בנה תיאור הפריט
+        with open(path, "r") as f:
+            return set(json.load(f))
+    except:
+        return set()
+
+def save_hash_cache(hashes, path="analyzed_hashes.json"):
+    with open(path, "w") as f:
+        json.dump(list(hashes), f)
+
+def item_hash(item):
+    return str(hash(item.get("url", "") + item.get("title", "")))
+
+
+def analyze_item(client, item):
+    try:
         item_text = f"""
-מקור: {item.get('source', '')}
+מקור: {item.get('source', '')} (Tier {item.get('source_tier', 2)})
 כותרת: {item.get('title', '')}
 גוף: {item.get('org', '')}
 מדינה: {item.get('country', '')}
@@ -96,209 +119,119 @@ def analyze_item(client: anthropic.Anthropic, item: dict) -> Optional[dict]:
 פורסם: {item.get('posted', '')}
 סוג: {item.get('type', '')}
 URL: {item.get('url', '')}
-בדיקה ידנית נדרשת: {item.get('manual_check', False)}
 """
-
         response = client.messages.create(
             model="claude-opus-4-6",
-            max_tokens=600,
+            max_tokens=700,
             system=GIVON_PROFILE + "\n\n" + ANALYST_INSTRUCTIONS,
             messages=[{"role": "user", "content": item_text}]
         )
-
         text = response.content[0].text.strip()
-        # נקה markdown אם יש
         text = text.replace("```json", "").replace("```", "").strip()
         result = json.loads(text)
 
         if not result.get("relevant", False):
             return None
 
-        # הוסף metadata
-        result["id"] = f"{item.get('source', 'unknown')}_{hash(item.get('title', ''))}"
+        # הורד fitScore אם אין URL
+        if result.get("fitScore", 0) >= 70 and not result.get("verifiable_url") and not result.get("url"):
+            result["fitScore"] = 55
+
+        result["id"] = f"{item.get('source','unknown')}_{abs(hash(item.get('title','') + item.get('url','')))}"
         result["scanned_at"] = datetime.now().isoformat()
         result["source_name"] = item.get("source", "")
         result["source_tier"] = item.get("source_tier", 2)
         result["bookmarked"] = False
         result["status"] = "פתוח"
-        result["assignee"] = None
 
-        # תיוג קשרים אישיים — ישראל
-        ISRAEL_KEYWORDS = ["מפא", "מלמ", "צה", "mafat", "imod", "idf", "mod.gov.il"]
-        
-        # תיוג שותפים אסטרטגיים — ארה"ב וגרמניה
-        STRATEGIC_KEYWORDS = [
-            # ארה"ב
-            "rheinmetall", "hensoldt", "thales", "knds", "leonardo",
-            "booz allen", "saic", "l3harris", "anduril", "shield ai",
-            "leidos", "peraton", "caci", "palantir", "axon", "dedrone",
-            "redwire", "ondas",
-            # גרמניה/אירופה
-            "bundeswehr", "nato diana", "edf", "european defence fund",
-        ]
-        
-        title_lower = item.get("title", "").lower()
-        source_lower = item.get("source", "").lower()
-        url_lower = item.get("url", "").lower()
-        combined = title_lower + source_lower + url_lower
-        
-        if any(kw in combined for kw in ISRAEL_KEYWORDS):
-            result["personal_connection"] = True
+        # תיוג ישראל
+        combined = (item.get("title","") + item.get("url","") + item.get("org","")).lower()
+        if any(kw in combined for kw in ["מפא","מלמ","mod.gov.il","mafat","rafael","iai","elbit"]):
             result["bookmarked"] = True
             if result.get("urgency") not in ("critical",):
                 result["urgency"] = "high"
-        
-        if any(kw in combined for kw in STRATEGIC_KEYWORDS):
-            result["strategic_partner"] = True
-            result["bookmarked"] = True
 
         return result
 
-    except json.JSONDecodeError as e:
-        print(f"  JSON parse error: {e}")
+    except json.JSONDecodeError:
         return None
     except Exception as e:
-        print(f"  Error analyzing item: {e}")
+        print(f"  Error: {e}")
         return None
 
 
-def run_analysis(raw_items: list, api_key: str, batch_size: int = 5) -> list:
-    """
-    מנתח את כל הפריטים הגולמיים
-    batch_size: כמה פריטים לנתח במקביל (להגבלת עלות)
-    """
+def run_analysis(raw_items, api_key):
     client = anthropic.Anthropic(api_key=api_key)
-
+    hash_cache = load_hash_cache()
+    cache_hits = 0
     analyzed = []
-    skipped = 0
-    errors = 0
 
     print(f"\nמנתח {len(raw_items)} פריטים...")
+    print(f"Hash cache: {len(hash_cache)} פריטים ידועים מריצות קודמות")
     print("=" * 50)
 
     for i, item in enumerate(raw_items):
         title = item.get("title", "")[:60]
         print(f"[{i+1}/{len(raw_items)}] {title}...")
 
-        # דלג על LinkedIn manual items — יטופלו בנפרד
         if item.get("manual_check"):
             print(f"  → LinkedIn manual, מדלג")
-            skipped += 1
+            continue
+
+        h = item_hash(item)
+        if h in hash_cache:
+            print(f"  → ⚡ Cache hit, מדלג")
+            cache_hits += 1
             continue
 
         result = analyze_item(client, item)
+        hash_cache.add(h)
 
         if result:
             analyzed.append(result)
-            print(f"  → ✅ fitScore: {result.get('fitScore', 0)} | {result.get('category', '')} | {result.get('domain', '')}")
+            print(f"  → ✅ fitScore: {result.get('fitScore',0)} | {result.get('category','')} | {result.get('domain','')}")
         else:
-            skipped += 1
             print(f"  → ⏭ לא רלוונטי")
 
-        # השהיה למניעת rate limiting
-        if (i + 1) % batch_size == 0:
+        if (i + 1) % 5 == 0:
             time.sleep(2)
+            save_hash_cache(hash_cache)
         else:
             time.sleep(0.5)
 
+    save_hash_cache(hash_cache)
     print(f"\n{'='*50}")
-    print(f"רלוונטיים: {len(analyzed)} | דולגו: {skipped} | שגיאות: {errors}")
+    print(f"רלוונטיים: {len(analyzed)} | Cache hits: {cache_hits}")
     return analyzed
 
 
-def merge_with_existing(new_items: list, existing_path: str = "../givon-app/src/opportunities.json") -> list:
-    """
-    ממזג עם הנתונים הקיימים — שומר פריטים שעדיין רלוונטיים,
-    מוסיף חדשים, מסיר ישנים (מעל 60 יום)
-    """
+def merge_with_existing(new_items, existing_path="../givon-app/src/opportunities.json"):
     try:
         with open(existing_path, "r", encoding="utf-8") as f:
-            existing = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+            existing_data = json.load(f)
+        if isinstance(existing_data, dict):
+            existing = [item for k, v in existing_data.items() if isinstance(v, list) for item in v]
+        else:
+            existing = existing_data
+    except:
         existing = []
 
-    # בנה lookup לפי ID
     existing_ids = {item.get("id", ""): item for item in existing}
-    new_ids = {item.get("id", ""): item for item in new_items}
-
-    # שמור פריטים קיימים שלא נמחקו ולא פגו
-    cutoff = datetime.now().isoformat()[:10]  # תאריך היום
-    kept = []
-    for item_id, item in existing_ids.items():
-        deadline = item.get("deadline", "")
-        # שמור אם: חדש (מופיע בסריקה), או סטטוס פעיל, או אין דדליין
-        if item_id in new_ids or item.get("status") in ("בבדיקה", "הוגש") or not deadline:
-            kept.append(item)
-
-    # הוסף פריטים חדשים שלא היו קודם
+    kept = [item for iid, item in existing_ids.items()
+            if iid in {i.get("id","") for i in new_items} or item.get("status") in ("בבדיקה","הוגש")]
     added = [item for item in new_items if item.get("id") not in existing_ids]
-
     merged = kept + added
     print(f"מיזוג: {len(kept)} קיימים + {len(added)} חדשים = {len(merged)} סה״כ")
     return merged
 
 
-def sort_by_priority(items: list) -> dict:
-    """
-    ממיין ומארגן לפי קטגוריה ו-fitScore
-    מחזיר dict לפי קטגוריות — מוכן לפורטל
-    """
-    categories = {
-        "contracts": [],
-        "partners": [],
-        "investors": [],
-        "grants": [],
-        "ventures": [],
-        "competitors": [],
-    }
-
+def sort_by_priority(items):
+    categories = {"contracts":[],"partners":[],"investors":[],
+                  "grants":[],"ventures":[],"competitors":[],"conferences":[]}
     for item in items:
         cat = item.get("category", "contracts")
         if cat in categories:
             categories[cat].append(item)
-
-    # מיין כל קטגוריה לפי fitScore
     for cat in categories:
         categories[cat].sort(key=lambda x: x.get("fitScore", 0), reverse=True)
-
     return categories
-
-
-if __name__ == "__main__":
-    import os
-    import sys
-
-    # קבל API key
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        print("שגיאה: ANTHROPIC_API_KEY לא מוגדר")
-        print("הרץ: export ANTHROPIC_API_KEY='your-key-here'")
-        sys.exit(1)
-
-    # טען נתונים גולמיים
-    try:
-        with open("raw_scan.json", "r", encoding="utf-8") as f:
-            raw_items = json.load(f)
-        print(f"נטענו {len(raw_items)} פריטים גולמיים")
-    except FileNotFoundError:
-        print("שגיאה: raw_scan.json לא נמצא. הרץ scanner.py קודם.")
-        sys.exit(1)
-
-    # נתח
-    analyzed = run_analysis(raw_items, api_key)
-
-    # מזג עם קיימים
-    merged = merge_with_existing(analyzed)
-
-    # ארגן לפי קטגוריות
-    organized = sort_by_priority(merged)
-
-    # שמור
-    output_path = "../givon-app/src/opportunities.json"
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(organized, f, ensure_ascii=False, indent=2)
-
-    print(f"\n✅ נשמר ל-{output_path}")
-    for cat, items in organized.items():
-        print(f"  {cat}: {len(items)} פריטים")
