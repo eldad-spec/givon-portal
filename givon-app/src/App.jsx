@@ -662,8 +662,175 @@ const CAT_LABELS={prime:"Prime",niche:"Niche",emerging:"Emerging"};
 
 // ── Expo Outreach Engine Data ─────────────────────────────────────────────────
 const EXPO_TARGETS = [
-  // ── דרג א׳: Must-Meet ──
-  { id:"e1", tier:1, name:"Rheinmetall AG", flag:"🇩🇪", country:"גרמניה",
+
+  // ── דרג א׳: Alpha — חברות בגודל הנכון, פתוחות לשותפויות ──
+
+  { id:"e1", tier:1, name:"Quantum-Systems", flag:"🇩🇪", country:"גרמניה",
+    poc:"Florian Seibel", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/florianseibel/",
+    offer:"פיילוד Daya על Vector VTOL + מארזי חומרים מרוכבים להארכת זמן טיסה. שתי חברות גרמניה/ישראל, שתי בעיות — פתרון אחד.",
+    product:"Daya ISR + Composites", fitScore:96, theme:"primes",
+    hook:"Quantum-Systems' Vector is NATO's go-to VTOL — but endurance is the ceiling. Givon's Daya payload adds 100km ISR coverage and our composite housings cut airframe weight by 18%. Two integrations, one meeting in Düsseldorf?",
+    reasons:["Vector מחפש פיילוד ISR מודולרי — Daya fit מושלם","חומרים מרוכבים = הארכת זמן טיסה ישירה","שתי חברות tech בגודל דומה — שפה משותפת","NATO customers משותפים — מסלול מכירה מהיר"],
+    status:"טרם פנינו", url:"https://quantum-systems.com" },
+
+  { id:"e2", tier:1, name:"Helsing AI", flag:"🇩🇪", country:"גרמניה",
+    poc:"Gundbert Scherf", pocTitle:"Co-CEO", linkedin:"https://www.linkedin.com/in/gundbert-scherf/",
+    offer:"רישוי iCit Vision AI להטמעה בארכיטקטורת Helsing לניתוח וידאו טקטי בקצה — ללא תלות ענן.",
+    product:"iCit Vision AI", fitScore:94, theme:"primes",
+    hook:"Helsing builds the inference layer — Givon's iCit provides edge vision agents that run on constrained hardware without cloud dependency. Together: full-stack tactical AI. Coffee in Düsseldorf?",
+    reasons:["Helsing זקוקה ל-edge vision agents","iCit רץ על חומרה מוגבלת ללא ענן","€600M funding — יש תקציב שילוב","שתי חברות deep-tech — לא מתחרות"],
+    status:"טרם פנינו", url:"https://helsing.ai" },
+
+  { id:"e3", tier:1, name:"Milrem Robotics", flag:"🇪🇪", country:"אסטוניה",
+    poc:"Kuldar Väärsi", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/kuldar-vaarsi/",
+    offer:"Aerosentry על Themis UGV — הגנת C-UAS אינטגרלית. Themis נפרס ב-NATO בלי הגנה מ-FPV.",
+    product:"Aerosentry on UGV", fitScore:95, theme:"primes",
+    hook:"Milrem's Themis is deployed across 6 NATO nations — but unprotected from FPV drones. Aerosentry mounts directly on Themis' existing power rails. Baltic states are buying C-UAS now. 15 minutes?",
+    reasons:["Themis נפרס ב-NATO ללא C-UAS","Aerosentry fit לרכבת החשמל הקיימת","Baltic + Poland = שוק מיידי","שתי חברות NATO-aligned בגודל דומה"],
+    status:"טרם פנינו", url:"https://milremrobotics.com" },
+
+  { id:"e4", tier:1, name:"Echodyne", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Eben Frankenberg", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/echodyne/",
+    offer:"Joint go-to-market: מכ״ם Echodyne + AerOS של גבעון = detect-to-defeat בפחות מ-3 שניות. אין מתחרה לפתרון המשולב.",
+    product:"AerOS + Echodyne Radar", fitScore:93, theme:"primes",
+    hook:"Echodyne radar detects — AerOS decides and defeats. Together: detect-to-defeat in under 3 seconds. No other vendor offers this integration. Joint go-to-market for European C-UAS programs. XPONENTIAL is the right place to announce.",
+    reasons:["Echodyne = radar בלבד, אין defeat layer","AerOS = החסר שלהם בדיוק","detect-to-defeat <3s — ייחודי בשוק","joint GTM כפיל כוח מכירות לשניים"],
+    status:"טרם פנינו", url:"https://echodyne.com" },
+
+  { id:"e5", tier:1, name:"Shield AI", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Ryan Tseng", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/ryantseng/",
+    offer:"Cyberbee כרכיב ניווט GNSS-denied ב-Hivemind — Shield AI מחפשת שותפי ניווט בסביבות GPS-jammed.",
+    product:"Cyberbee GNSS-denied nav", fitScore:91, theme:"primes",
+    hook:"Shield AI's Hivemind controls the swarm — but GPS jamming is the Achilles heel. Cyberbee's visual navigation fills that gap with no hardware change required. Ukraine validated the problem. We built the fix.",
+    reasons:["Hivemind = תלות ב-GPS — חולשה ידועה","Cyberbee = visual nav ללא GPS","Shield AI מחפשת שותפי ניווט אקטיבית","DoD validation = מסלול מכירה מהיר"],
+    status:"טרם פנינו", url:"https://www.shield.ai" },
+
+  // ── דרג ב׳: Strategic Partners ──
+
+  { id:"e6", tier:2, name:"Dedrone (Axon)", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Jorg Lamprecht", pocTitle:"GM Dedrone at Axon", linkedin:"https://www.linkedin.com/company/dedrone/",
+    offer:"שילוב GuaRdF כשכבת RF sensing מעל פלטפורמת Dedrone — זיהוי פרוטוקולים שDedrone לא מכסה.",
+    product:"GuaRdF RF sensing", fitScore:89, theme:"primes",
+    hook:"Dedrone detects known drones — GuaRdF detects unknown RF signatures and protocol anomalies that signature-based systems miss. Complementary, not competitive. Axon's customers need both.",
+    reasons:["Dedrone = signature-based, פערים ב-unknown drones","GuaRdF = passive RF, משלים לא מתחרה","Axon = distribution channel ענק","integration טכני פשוט — API"],
+    status:"טרם פנינו", url:"https://www.dedrone.com" },
+
+  { id:"e7", tier:2, name:"Fortem Technologies", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Timothy Bean", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/fortem-technologies/",
+    offer:"AerOS כשכבת שליטה מעל TrueView radar של Fortem — הרחבת יכולות ה-C2 ללא החלפת חומרה.",
+    product:"AerOS C2 layer", fitScore:87, theme:"primes",
+    hook:"Fortem's TrueView radar is excellent — but the C2 layer limits engagement options. AerOS adds autonomous decision-making and multi-threat prioritization on top of existing hardware. Zero rip-and-replace.",
+    reasons:["Fortem = radar + limited C2","AerOS = intelligent defeat layer","zero hardware change — integration מהיר","target customers משותפים: airports, bases"],
+    status:"טרם פנינו", url:"https://fortemtech.com" },
+
+  { id:"e8", tier:2, name:"Mistral Inc", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Ron Friedmann", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/mistral-inc/",
+    offer:"Mistral = מסלול מהיר ל-SOCOM BAA. אינטגרטור מומחה לחברות ישראליות ב-Special Operations.",
+    product:"SOCOM Channel Partner", fitScore:92, theme:"primes",
+    hook:"Mistral has placed 12 Israeli technologies into SOCOM programs. Givon's Aerosentry and Crebain fit 3 active BAA topics right now. This is a 6-month path to a SOCOM contract. Let's talk.",
+    reasons:["Mistral = מסלול ישיר ל-SOCOM BAA","ניסיון עם חברות ישראליות ספציפית","3 BAA topics פעילים שמתאימים לגבעון","6 חודשים לחוזה — הכי מהיר בשוק"],
+    status:"טרם פנינו", url:"https://www.mistralinc.com" },
+
+  { id:"e9", tier:2, name:"Ondas Holdings", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Eric Brock", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/ondas-holdings/",
+    offer:"Ondas רכשו את Sentrycs הישראלית — signal ברור שהם פתוחים לרכישה/שותפות עם חברות ישראליות. Aerosentry = המועמד הבא.",
+    product:"Aerosentry / M&A target", fitScore:88, theme:"primes",
+    hook:"Ondas acquired Sentrycs — an Israeli C-UAS company — and integrated it successfully. Givon's Aerosentry is the next logical addition to their portfolio. Same thesis, stronger technology, proven in conflict.",
+    reasons:["רכשו Sentrycs ישראלית — precedent ברור","Aerosentry = אותה קטגוריה, יכולות גבוהות יותר","Ondas = public company עם אסטרטגיית רכישות","timing — מחפשים את הרכישה הבאה עכשיו"],
+    status:"טרם פנינו", url:"https://www.ondas.com" },
+
+  { id:"e10", tier:2, name:"Ghost Robotics", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Jiren Parikh", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/ghost-robotics/",
+    offer:"מארזי חומרים מרוכבים קלים + DFM Power לרובוטים הולכים — Ghost מחפשת הקלת משקל ועמידות.",
+    product:"Composites + DFM Power", fitScore:85, theme:"manufacturing",
+    hook:"Ghost Robotics' Vision 60 carries a heavy payload penalty. Givon's carbon composite housings reduce structural weight by 22% and DFM Power extends mission time. Two upgrades, one supplier, zero redesign.",
+    reasons:["Vision 60 = בעיית משקל ידועה","חומרים מרוכבים = פחות 22% משקל","DFM Power = הארכת משימה","DoD contracts — מסלול מכירה ברור"],
+    status:"טרם פנינו", url:"https://www.ghostrobotics.io" },
+
+  // ── דרג ג׳: Tech Synergy ──
+
+  { id:"e11", tier:3, name:"Doodle Labs", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Dustin Kenyon", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/doodle-labs/",
+    offer:"Mesh Rider Radio כ-backbone תקשורת לנחיל Crebain — Doodle Labs = תקשורת mesh לרחפנים.",
+    product:"Crebain + Mesh comms", fitScore:88, theme:"primes",
+    hook:"Crebain's decentralized swarm needs resilient mesh comms. Doodle Labs' Mesh Rider is already certified on 40+ NATO platforms. Together: a complete swarm solution. Let's co-demo at XPONENTIAL.",
+    reasons:["Crebain צריך mesh comms מוכח","Doodle Labs certified ב-40+ NATO platforms","co-demo ב-XPONENTIAL = חשיפה משותפת","OEM partnership — הכנסה חוזרת לגבעון"],
+    status:"טרם פנינו", url:"https://doodlelabs.com" },
+
+  { id:"e12", tier:3, name:"Persistent Systems", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Herbert Rubens", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/persistent-systems-llc/",
+    offer:"Wave Relay MPU5 כרכיב תקשורת ב-Daya ISR — Persistent Systems = תקשורת MANET מובילה ל-ISR.",
+    product:"Daya + Wave Relay", fitScore:84, theme:"primes",
+    hook:"Daya ISR collects the data — Wave Relay gets it back through denied environments. Persistent Systems is already on 200+ DoD programs. Adding Daya as a certified payload is a natural expansion.",
+    reasons:["Wave Relay = תקשורת ISR סטנדרט DoD","Daya = payload מושלם לפלטפורמות קיימות","200+ DoD programs = distribution מוכן","certification path מהיר — platform כבר approved"],
+    status:"טרם פנינו", url:"https://www.persistentsystems.com" },
+
+  { id:"e13", tier:3, name:"Silvus Technologies", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Raju Pudota", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/silvus-technologies/",
+    offer:"StreamCaster MIMO כ-backbone ל-AerOS ו-Crebain — תקשורת מאובטחת לנחיל.",
+    product:"AerOS + StreamCaster", fitScore:82, theme:"primes",
+    hook:"Silvus StreamCaster is the backbone of US SOF communications. Givon's AerOS and Crebain are certified compatible. An OEM agreement would put Givon inside every Silvus deployment.",
+    reasons:["StreamCaster = תקשורת SOF סטנדרט","AerOS compatible — אין פיתוח נוסף","SOF channel = SOCOM access מיידי","OEM = הכנסה פסיבית לגבעון"],
+    status:"טרם פנינו", url:"https://silvustechnologies.com" },
+
+  { id:"e14", tier:3, name:"Improbable Defence", flag:"🇬🇧", country:"בריטניה",
+    poc:"Peter Ingram", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/improbable-defence/",
+    offer:"D-COE כמנוע סימולציה וסצנריו ל-Improbable — יחד: סביבת אימון מלאה לנחילי רחפנים.",
+    product:"D-COE Simulation", fitScore:83, theme:"primes",
+    hook:"Improbable builds the synthetic environments — D-COE brings the drone swarm training scenarios. Together: the most realistic counter-UAS training platform in NATO. UK MOD is asking for exactly this.",
+    reasons:["Improbable = synthetic env ללא תרחישי נחיל","D-COE = תרחישי נחיל ללא synthetic env","UK MOD budget גדל — ביקוש לאימון","partnership = tender משותף ל-UK MOD"],
+    status:"טרם פנינו", url:"https://www.improbable.io/defence" },
+
+  { id:"e15", tier:3, name:"infiniDome", flag:"🇮🇱", country:"ישראל",
+    poc:"Omer Sharar", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/infinidome/",
+    offer:"GPSdome + Cyberbee = פתרון ניווט מלא בסביבות GPS-denied — הגנה + ניווט חלופי.",
+    product:"Cyberbee + GPSdome", fitScore:87, theme:"primes",
+    hook:"infiniDome protects GPS — Cyberbee navigates without it. Together: a complete GPS-resilience solution. Both Israeli, both NATO-ready, both solving the same problem from different angles. Co-sell makes sense.",
+    reasons:["שתי חברות ישראליות — דלת פתוחה","GPSdome + Cyberbee = פתרון מלא","Ukraine = הוכחת ביקוש מיידי","co-sell = כוח מכירות כפול ללא עלות"],
+    status:"טרם פנינו", url:"https://infinidome.com" },
+
+  // ── דרג ד׳: Strategy & Growth ──
+
+  { id:"e16", tier:4, name:"Skydio", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Adam Bry", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/adam-bry-skydio/",
+    offer:"iCit Vision AI כשכבת אנליטיקה מעל X2 — Skydio מחפשת שותפי תוכנה ל-X2 Ecosystem.",
+    product:"iCit on X2 Ecosystem", fitScore:84, theme:"primes",
+    hook:"Skydio X2 captures everything — iCit Vision AI interprets it automatically. Threat detection, target classification, anomaly alerts — all on-device. Skydio has the platform, Givon has the intelligence layer.",
+    reasons:["X2 Ecosystem = תוכנית שותפי תוכנה פתוחה","iCit = intelligence layer מושלם","Blue UAS certified = DoD customers","integration = SDK, לא hardware"],
+    status:"טרם פנינו", url:"https://www.skydio.com" },
+
+  { id:"e17", tier:4, name:"WhiteFox Defense", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Theresa Stadheim", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/whitefox-defense/",
+    offer:"GuaRdF כשכבת RF analytics מעל פלטפורמת WhiteFox — זיהוי פרוטוקולים שלא מזוהים ב-signature DB.",
+    product:"GuaRdF RF analytics", fitScore:82, theme:"primes",
+    hook:"WhiteFox detects RF signatures in the database — GuaRdF detects what's NOT in the database. Unknown protocols, custom-built drones, frequency hopping. Complementary intel layers for the same customer.",
+    reasons:["WhiteFox = signature-based RF","GuaRdF = anomaly-based RF — משלים","same customer base — airport security","integration = data layer, לא hardware"],
+    status:"טרם פנינו", url:"https://whitefoxdefense.com" },
+
+  { id:"e18", tier:4, name:"Tomahawk Robotics", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Jacob Kaplan", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/tomahawk-robotics/",
+    offer:"AerOS כ-payload ב-Kinesis C2 — ממשק שליטה אחוד לרחפנים ורובוטים קרקעיים.",
+    product:"AerOS via Kinesis", fitScore:80, theme:"primes",
+    hook:"Tomahawk's Kinesis controls everything — but Givon's aerial systems need AerOS for autonomous C-UAS decisions. Integration means one controller for ground and air, with AI-driven engagement. SOCOM loves this.",
+    reasons:["Kinesis = unified C2 ל-DoD","AerOS = autonomous air engagement","SOCOM = customer משותף","integration = SDK — ללא hardware"],
+    status:"טרם פנינו", url:"https://tomahawkrobotics.com" },
+
+  { id:"e19", tier:4, name:"BRINC Drones", flag:"🇺🇸", country:"ארה״ב",
+    poc:"Blake Resnick", pocTitle:"CEO", linkedin:"https://www.linkedin.com/in/blakeresnick/",
+    offer:"iCit Vision AI לרחפני פנים של BRINC — זיהוי אוטומטי של איומים בסביבות indoor.",
+    product:"iCit for indoor ISR", fitScore:79, theme:"primes",
+    hook:"BRINC drones enter buildings — iCit Vision AI tells them what they're looking at. Automatic threat classification, person detection, weapon identification — all on-device, no cloud, no latency.",
+    reasons:["BRINC = indoor ISR ללא analytics","iCit = on-device, no cloud — קריטי לindoor","Law enforcement + military = שוק דואלי","integration = SDK, time-to-market מהיר"],
+    status:"טרם פנינו", url:"https://brincdrones.com" },
+
+  { id:"e20", tier:4, name:"Ondas / Sentrycs", flag:"🇮🇱", country:"ישראל/ארה״ב",
+    poc:"Oren Elkayam", pocTitle:"CEO Sentrycs", linkedin:"https://www.linkedin.com/company/sentrycs/",
+    offer:"Sentrycs = ערוץ ישיר לאונדס ול-US market. שיתוף פעולה בין שתי חברות ישראליות תחת קורת גג אחת.",
+    product:"Channel + Co-sell", fitScore:81, theme:"primes",
+    hook:"Sentrycs and Givon solve adjacent problems under the same Ondas roof. A co-sell agreement means Sentrycs' US DoD relationships become Givon's pipeline — and vice versa. Two Israeli companies, one American channel.",
+    reasons:["Sentrycs = US DoD access כבר קיים","שתי חברות ישראליות — אמון מהיר","Ondas = public company מממן expansion","co-sell = pipeline מיידי ללא השקעה"],
+    status:"טרם פנינו", url:"https://sentrycs.com" },
+];
     poc:"Oliver Mittelsdorf", pocTitle:"Head of C-UAS Systems Integration", linkedin:"https://www.linkedin.com/company/rheinmetall-ag/",
     offer:"מכירת Aerosentry (TRL 7) כרכיב הגנה אקטיבית משלים למערכות נ״מ (Skyranger) נגד רחפני FPV.",
     product:"Aerosentry", fitScore:97, theme:"primes",
@@ -1098,13 +1265,18 @@ function ConferencesView(){
         <div style={{fontSize:"12px",color:"#475569"}}>כנסי ביטחון עולמיים — הזדמנויות לפגישות, שותפויות וחשיפה</div>
       </div>
       {nextConf&&(
-        <div style={{background:"linear-gradient(135deg,#0a1628,#0c1f35)",border:"1px solid #1e40af25",borderRadius:10,padding:"14px 18px",marginBottom:16,display:"flex",gap:14,alignItems:"center"}}>
+        <div style={{background:"linear-gradient(135deg,#0a1628,#0c1f35)",border:"1px solid #1e40af25",borderRadius:10,padding:"14px 18px",marginBottom:16,display:"flex",gap:14,alignItems:"center",flexWrap:"wrap"}}>
           <div style={{fontSize:"28px"}}>{nextConf.flag}</div>
-          <div style={{flex:1}}>
+          <div style={{flex:1,minWidth:160}}>
             <div style={{fontSize:"10px",color:"#60a5fa",fontWeight:700,marginBottom:2}}>⏭ הכנס הבא</div>
             <div style={{fontSize:"14px",fontWeight:800,color:"#f1f5f9"}}>{nextConf.name}</div>
             <div style={{fontSize:"11px",color:"#475569"}}>{nextConf.location} · {nextConf.date}</div>
           </div>
+          {nextConf.id==="c13"&&(
+            <button onClick={()=>setShowExpo(true)} style={{background:"linear-gradient(135deg,#431407,#7c2d12)",border:"1px solid #f9731660",borderRadius:8,padding:"10px 18px",color:"#fed7aa",fontSize:"12px",fontWeight:800,cursor:"pointer",whiteSpace:"nowrap"}}>
+              🎯 הכנה לקראת הכנס
+            </button>
+          )}
           <div style={{textAlign:"center"}}>
             <div style={{fontSize:"28px",fontWeight:800,color:"#f97316",fontFamily:"Roboto Mono,monospace",lineHeight:1}}>{nextConf.daysAway}</div>
             <div style={{fontSize:"9px",color:"#475569"}}>ימים</div>
