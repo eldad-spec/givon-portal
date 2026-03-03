@@ -52,8 +52,8 @@
     { "id": "besa_center",    "name": "BESA Center",      "type": "rss", "url": "https://besacenter.org/feed/",        "country": "ישראל",  "flag": "🇮🇱", "active": true },
     { "id": "inss_israel",    "name": "INSS",             "type": "rss", "url": "https://www.inss.org.il/rss/",        "country": "ישראל",  "flag": "🇮🇱", "active": true },
     { "id": "shield_ai_blog", "name": "Shield AI Blog",   "type": "rss", "url": "https://www.shield.ai/feed",          "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
-    { "id": "breaking_defense","name": "Breaking Defense", "type": "rss", "url": "https://breakingdefense.com/feed/", "country": "גלובלי", "flag": "🌐",  "active": true }
-  ],
+{ "id": "breaking_defense","name": "Breaking Defense", "type": "rss", "url": "https://breakingdefense.com/feed/", "country": "גלובלי", "flag": "🌐",  "active": true },
+    { "id": "vulcan_sof", "name": "Vulcan SOF", "type": "rss", "url": "https://vulcan-sof.com/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true }  ],
 
   "manual_linkedin": [
     { "id": "li_nato_diana",   "name": "NATO DIANA",          "url": "https://www.linkedin.com/company/nato-diana/",            "active": true },
