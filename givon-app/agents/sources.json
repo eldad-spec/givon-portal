@@ -6,50 +6,53 @@
   },
 
   "tier1_apis": [
-    { "id": "sam_gov", "name": "SAM.gov — DoD Opportunities", "type": "api", "url": "https://api.sam.gov/opportunities/v2/search", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "sbir_gov", "name": "DoD SBIR/STTR", "type": "api", "url": "https://api.sbir.gov/solicitations", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "grants_gov", "name": "Grants.gov", "type": "api", "url": "https://api.grants.gov/v2/api/search2", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "eu_funding", "name": "EU Funding & Tenders", "type": "api", "url": "https://api.tech.ec.europa.eu/search-api/prod/rest/search", "country": "אירופה", "flag": "🇪🇺", "active": true }
+    { "id": "sam_gov",    "name": "SAM.gov — DoD Opportunities", "type": "api", "url": "https://api.sam.gov/opportunities/v2/search",          "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "sbir_gov",   "name": "DoD SBIR/STTR",               "type": "api", "url": "https://api.sbir.gov/solicitations",                   "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "grants_gov", "name": "Grants.gov",                   "type": "api", "url": "https://api.grants.gov/v2/api/search2",                "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "eu_funding", "name": "EU Funding & Tenders",         "type": "api", "url": "https://api.tech.ec.europa.eu/search-api/prod/rest/search", "country": "אירופה", "flag": "🇪🇺", "active": true }
   ],
 
   "tier1_rss": [
-    { "id": "diu_news", "name": "DIU — Defense Innovation Unit", "type": "rss", "url": "https://www.diu.mil/feed", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "afwerx", "name": "AFWERX", "type": "rss", "url": "https://afwerx.com/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "darpa_news", "name": "DARPA News", "type": "rss", "url": "https://www.darpa.mil/rss/news", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "nato_diana", "name": "NATO DIANA", "type": "rss", "url": "https://www.diana.nato.int/rss.xml", "country": "נאט״ו", "flag": "🏛️", "active": true },
-    { "id": "uk_dasa", "name": "UK DASA", "type": "rss", "url": "https://www.ukdasa.com/opportunities/feed/", "country": "בריטניה", "flag": "🇬🇧", "active": true },
-    { "id": "edf", "name": "European Defence Fund", "type": "rss", "url": "https://defence-industry-space.ec.europa.eu/funding-tenders/european-defence-fund_en.rss", "country": "אירופה", "flag": "🇪🇺", "active": true },
-    { "id": "nato_innovation_fund", "name": "NATO Innovation Fund", "type": "rss", "url": "https://www.natoinnovationfund.nato.int/news/feed", "country": "נאט״ו", "flag": "🏛️", "active": true },
-    { "id": "eic", "name": "European Innovation Council", "type": "rss", "url": "https://eic.ec.europa.eu/news_en.rss", "country": "אירופה", "flag": "🇪🇺", "active": true },
-    { "id": "bundeswehr", "name": "Bundeswehr / BMVg", "type": "rss", "url": "https://www.bmvg.de/de/rss.xml", "country": "גרמניה", "flag": "🇩🇪", "active": true }
+    { "id": "diu_news",             "name": "DIU — Defense Innovation Unit", "type": "rss", "url": "https://www.diu.mil/feed",                                                                "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "afwerx",               "name": "AFWERX",                        "type": "rss", "url": "https://afwerx.com/feed/",                                                               "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "darpa_news",           "name": "DARPA News",                    "type": "rss", "url": "https://www.darpa.mil/rss/news",                                                         "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "nato_diana",           "name": "NATO DIANA",                    "type": "rss", "url": "https://www.diana.nato.int/rss.xml",                                                     "country": "נאט״ו",  "flag": "🏛️",  "active": true },
+    { "id": "uk_dasa",              "name": "UK DASA",                       "type": "rss", "url": "https://www.ukdasa.com/opportunities/feed/",                                             "country": "בריטניה","flag": "🇬🇧", "active": true },
+    { "id": "edf",                  "name": "European Defence Fund",         "type": "rss", "url": "https://defence-industry-space.ec.europa.eu/funding-tenders/european-defence-fund_en.rss","country": "אירופה", "flag": "🇪🇺", "active": true },
+    { "id": "nato_innovation_fund", "name": "NATO Innovation Fund",          "type": "rss", "url": "https://www.natoinnovationfund.nato.int/news/feed",                                      "country": "נאט״ו",  "flag": "🏛️",  "active": true },
+    { "id": "eic",                  "name": "European Innovation Council",   "type": "rss", "url": "https://eic.ec.europa.eu/news_en.rss",                                                   "country": "אירופה", "flag": "🇪🇺", "active": true },
+    { "id": "bundeswehr",           "name": "Bundeswehr / BMVg",             "type": "rss", "url": "https://www.bmvg.de/de/rss.xml",                                                         "country": "גרמניה", "flag": "🇩🇪", "active": true },
+    { "id": "socom_baa",            "name": "USSOCOM BAA",                   "type": "rss", "url": "https://www.socom.mil/SOF-ATL/Pages/baa.aspx",                                           "country": "ארה״ב",  "flag": "🇺🇸", "active": true, "notes": "SOCOM Broad Area Announcements — דרישות SOF ישירות" },
+    { "id": "socom_sam",            "name": "USSOCOM on SAM.gov",            "type": "sam_search", "url": "https://api.sam.gov/opportunities/v2/search?organizationId=100178296",            "country": "ארה״ב",  "flag": "🇺🇸", "active": true, "notes": "כל המכרזים של SOCOM ב-SAM.gov — RFI, RFP, BAA" },
+    { "id": "socom_sbir",           "name": "SOCOM SBIR Topics",             "type": "rss", "url": "https://www.sbir.gov/solicitations?agency=DOD&component=SOCOM",                         "country": "ארה״ב",  "flag": "🇺🇸", "active": true, "notes": "SBIR topics של SOCOM — הכי נגיש לחברות זרות עם tech" }
   ],
 
   "tier2_procurement": [
     { "id": "find_tender_uk", "name": "UK Find a Tender", "type": "rss", "url": "https://www.find-tender.service.gov.uk/api/1.0/ocds/opportunities.rss", "country": "בריטניה", "flag": "🇬🇧", "active": true },
-    { "id": "french_dga", "name": "DGA France", "type": "rss", "url": "https://www.defense.gouv.fr/dga/rss", "country": "צרפת", "flag": "🇫🇷", "active": true },
-    { "id": "usni_news", "name": "USNI News", "type": "rss", "url": "https://news.usni.org/feed", "country": "ארה״ב", "flag": "🇺🇸", "active": true }
+    { "id": "french_dga",     "name": "DGA France",       "type": "rss", "url": "https://www.defense.gouv.fr/dga/rss",                                   "country": "צרפת",    "flag": "🇫🇷", "active": true },
+    { "id": "usni_news",      "name": "USNI News",         "type": "rss", "url": "https://news.usni.org/feed",                                            "country": "ארה״ב",   "flag": "🇺🇸", "active": true }
   ],
 
   "tier2_vc_defense": [
-    { "id": "shield_capital", "name": "Shield Capital", "type": "rss", "url": "https://www.shieldcap.com/feed", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "iqt", "name": "In-Q-Tel", "type": "rss", "url": "https://www.iqt.org/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "a16z_defense", "name": "a16z American Dynamism", "type": "rss", "url": "https://a16z.com/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "lux_capital", "name": "Lux Capital", "type": "rss", "url": "https://luxcapital.com/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "lightspeed", "name": "Lightspeed Defense", "type": "rss", "url": "https://lsvp.com/feed/", "country": "ארה״ב", "flag": "🇺🇸", "active": true }
+    { "id": "shield_capital", "name": "Shield Capital",        "type": "rss", "url": "https://www.shieldcap.com/feed",  "country": "ארה״ב", "flag": "🇺🇸", "active": true },
+    { "id": "iqt",            "name": "In-Q-Tel",               "type": "rss", "url": "https://www.iqt.org/feed/",       "country": "ארה״ב", "flag": "🇺🇸", "active": true },
+    { "id": "a16z_defense",   "name": "a16z American Dynamism", "type": "rss", "url": "https://a16z.com/feed/",          "country": "ארה״ב", "flag": "🇺🇸", "active": true },
+    { "id": "lux_capital",    "name": "Lux Capital",            "type": "rss", "url": "https://luxcapital.com/feed/",    "country": "ארה״ב", "flag": "🇺🇸", "active": true },
+    { "id": "lightspeed",     "name": "Lightspeed Defense",     "type": "rss", "url": "https://lsvp.com/feed/",          "country": "ארה״ב", "flag": "🇺🇸", "active": true }
   ],
 
   "tier2_civil_infrastructure": [
-    { "id": "cisa_gov", "name": "CISA — Critical Infrastructure", "type": "rss", "url": "https://www.cisa.gov/news-events/news/rss.xml", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "tsa_gov", "name": "TSA — Airport Security", "type": "rss", "url": "https://www.tsa.gov/news/press/feed", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "eurocontrol", "name": "Eurocontrol — UAS", "type": "rss", "url": "https://www.eurocontrol.int/rss.xml", "country": "אירופה", "flag": "🇪🇺", "active": true }
+    { "id": "cisa_gov",    "name": "CISA — Critical Infrastructure", "type": "rss", "url": "https://www.cisa.gov/news-events/news/rss.xml", "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "tsa_gov",     "name": "TSA — Airport Security",         "type": "rss", "url": "https://www.tsa.gov/news/press/feed",           "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "eurocontrol", "name": "Eurocontrol — UAS",              "type": "rss", "url": "https://www.eurocontrol.int/rss.xml",            "country": "אירופה", "flag": "🇪🇺", "active": true }
   ],
 
   "tier3_industry_signals": [
-    { "id": "defense24", "name": "Defense24 Poland", "type": "rss", "url": "https://defence24.pl/feed", "country": "פולין", "flag": "🇵🇱", "active": true },
-    { "id": "besa_center", "name": "BESA Center", "type": "rss", "url": "https://besacenter.org/feed/", "country": "ישראל", "flag": "🇮🇱", "active": true },
-    { "id": "inss_israel", "name": "INSS", "type": "rss", "url": "https://www.inss.org.il/rss/", "country": "ישראל", "flag": "🇮🇱", "active": true },
-    { "id": "shield_ai_blog", "name": "Shield AI Blog", "type": "rss", "url": "https://www.shield.ai/feed", "country": "ארה״ב", "flag": "🇺🇸", "active": true },
-    { "id": "breaking_defense", "name": "Breaking Defense", "type": "rss", "url": "https://breakingdefense.com/feed/", "country": "גלובלי", "flag": "🌐", "active": true }
+    { "id": "defense24",      "name": "Defense24 Poland", "type": "rss", "url": "https://defence24.pl/feed",          "country": "פולין",  "flag": "🇵🇱", "active": true },
+    { "id": "besa_center",    "name": "BESA Center",      "type": "rss", "url": "https://besacenter.org/feed/",        "country": "ישראל",  "flag": "🇮🇱", "active": true },
+    { "id": "inss_israel",    "name": "INSS",             "type": "rss", "url": "https://www.inss.org.il/rss/",        "country": "ישראל",  "flag": "🇮🇱", "active": true },
+    { "id": "shield_ai_blog", "name": "Shield AI Blog",   "type": "rss", "url": "https://www.shield.ai/feed",          "country": "ארה״ב",  "flag": "🇺🇸", "active": true },
+    { "id": "breaking_defense","name": "Breaking Defense", "type": "rss", "url": "https://breakingdefense.com/feed/", "country": "גלובלי", "flag": "🌐",  "active": true }
   ],
 
   "manual_linkedin": [
@@ -63,6 +66,7 @@
     { "id": "li_milrem",       "name": "Milrem Robotics",      "url": "https://www.linkedin.com/company/milrem/",               "active": true },
     { "id": "li_helsing",      "name": "Helsing AI",           "url": "https://www.linkedin.com/company/helsing-ai/",           "active": true },
     { "id": "li_quantum",      "name": "Quantum-Systems",      "url": "https://www.linkedin.com/company/quantum-systems/",      "active": true },
-    { "id": "li_edge",         "name": "EDGE Group UAE",       "url": "https://www.linkedin.com/company/edgegroup/",            "active": true }
+    { "id": "li_edge",         "name": "EDGE Group UAE",       "url": "https://www.linkedin.com/company/edgegroup/",            "active": true },
+    { "id": "li_socom",        "name": "USSOCOM",              "url": "https://www.linkedin.com/company/ussocom/",              "active": true }
   ]
 }
