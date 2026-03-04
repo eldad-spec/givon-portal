@@ -34,37 +34,49 @@ EU (EDF/Horizon), מאפ״ת/מלמ״ב, UK MOD, מזרח אירופה, GCC
 """
 
 ANALYST_INSTRUCTIONS = """
-קיבלת פריט גולמי. המשימה: האם זה ליד ACTIONABLE לגבעון?
+קיבלת פריט גולמי. המשימה: האם זה מודיעין שימושי לגבעון?
 
-הגדרת ליד ACTIONABLE — חייב לעמוד לפחות בשניים מהבאים:
-1. יש URL אמיתי שניתן לאמת
-2. יש deadline ספציפי (תאריך ממשי)
-3. יש גוף מממן ספציפי (לא "DoD בכלליות")
-4. יש סכום תקציב מצוין
-5. יש action ספציפי שגבעון יכולה לעשות עכשיו
+סוגי פריטים רלוונטיים — קבל אם עומד באחד מהבאים:
 
-דחה אוטומטית — אלה לא לידים:
-- כתבות חדשות כלליות (Breaking Defense, War Zone, Defense One וכו׳)
-- ניתוחים אסטרטגיים ו-think tanks ללא הזדמנות ספציפית
-- מידע שגבעון כבר יודעת (SAIC/Booz Allen קיבלו חוזה גדול — לא מעניין)
-- פריטים ללא קישור לאימות ובלי deadline
-- תחרות שגבעון לא יכולה לנצח עכשיו
+1. ACTIONABLE LEADS (fitScore 80-100):
+   - RFI/SBIR/OTA/BAA פתוח עם URL + deadline
+   - מכרז ממשלתי עם גוף מממן ספציפי
+   - קרן שהכריזה על השקעה בתחום defense/autonomy
+
+2. COMPETITOR INTELLIGENCE (fitScore 70-85):
+   - כל חדשה על: Shield AI, Helsing, Anduril, Quantum-Systems, Milrem, Elbit, Rafael
+   - חוזה שמתחרה זכה בו = פער שגבעון יכולה למלא
+   - מוצר חדש של מתחרה = signal לשוק
+
+3. STRATEGIC SIGNALS (fitScore 65-79):
+   - כל אזכור של SOCOM, SOF, JATF, Collective Autonomy, C-UAS, Counter-drone
+   - NATO/DIANA/DIU/AFWERX — גם כתבה כללית = signal
+   - שינוי תקציבי / דוקטרינה חדשה שמשפיע על שווקי גבעון
+
+4. MARKET TRENDS (fitScore 60-69):
+   - טכנולוגיה חדשה ב-swarm/AI/ISR שגבעון צריכה לדעת עליה
+   - כנס / matchmaking event עם DoD buyers
+
+דחה רק:
+- כתבות פוליטיות שאין להן קשר לביטחון/טכנולוגיה
+- חדשות ימאות/נפט/כלכלה ללא קשר לביטחון
+- תוכן כפול שכבר ראינו
 
 כללי fitScore:
-- 90-100: RFI/SBIR/OTA פתוח עכשיו, deadline <60 יום, גבעון מועמדת ישירה, יש URL
-- 75-89: הזדמנות ממשית, deadline 60-180 יום, יש URL לאימות
-- 60-74: פוטנציאל ממשי, יש URL, אין deadline ידוע
-- מתחת ל-60: רק אם מידע ייחודי שלא ניתן למצוא אחרת
-- אם אין URL אמיתי — fitScore לא יעלה על 59
+- 90-100: RFI/SBIR/OTA פתוח, deadline <60 יום, URL ישיר, גבעון מועמדת ישירה
+- 80-89: הזדמנות ממשית או חוזה מתחרה משמעותי
+- 70-79: signal אסטרטגי חשוב — SOCOM/NATO/מתחרה ידוע
+- 60-69: trend/כנס/טכנולוגיה רלוונטית
+- מתחת ל-60: relevant=false
 
 קטגוריות:
 - contracts: RFI, SBIR, OTA, מכרז ממשלתי
 - grants: EDF, DIANA, Horizon, AFWERX
-- investors: קרן VC defense שסגרה fund חדש / early stage
-- partners: חברה שפרסמה RFI ספציפי / דרושים שמצביעים על צורך שגבעון ממלאת
-- conferences: כנס עם DoD buyers / pitch sessions / matchmaking
-- ventures: פער שוק ספציפי שאף אחד לא ממלא עדיין
-- competitors: מתחרה ישיר עם מוצר חדש שמאיים ממש
+- investors: קרן VC defense
+- partners: שותף פוטנציאלי או RFI ספציפי
+- conferences: כנס / pitch session / matchmaking
+- ventures: פער שוק או טכנולוגיה חדשה
+- competitors: מתחרה ישיר — חוזה, מוצר חדש, שותפות
 
 פורמט תגובה — JSON בלבד, ללא markdown:
 {
