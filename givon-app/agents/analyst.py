@@ -91,6 +91,9 @@ ANALYST_INSTRUCTIONS = """
 אם relevant: false — החזר רק: {"relevant": false}
 """
 
+# System prompt משולב — נבנה פעם אחת
+SYSTEM_PROMPT = GIVON_PROFILE + "\n\n" + ANALYST_INSTRUCTIONS
+
 
 def load_hash_cache(path="analyzed_hashes.json"):
     try:
@@ -121,9 +124,15 @@ def analyze_item(client, item):
 URL: {item.get('url', '')}
 """
         response = client.messages.create(
-            model="claude-opus-4-6",
+            model="claude-sonnet-4-6",  # ✅ Sonnet במקום Opus — זול פי ~15
             max_tokens=700,
-            system=GIVON_PROFILE + "\n\n" + ANALYST_INSTRUCTIONS,
+            system=[
+                {
+                    "type": "text",
+                    "text": SYSTEM_PROMPT,
+                    "cache_control": {"type": "ephemeral"}  # ✅ Cache prompt caching — חוסך ~90% tokens
+                }
+            ],
             messages=[{"role": "user", "content": item_text}]
         )
         text = response.content[0].text.strip()
