@@ -27,11 +27,11 @@ def scan_sam_gov() -> list:
     items = []
     try:
         api_key = os.environ.get("SAM_GOV_API_KEY", "DEMO_KEY")
-        url = "https://api.sam.gov/opportunities/v2/search"
+        url = "https://api.sam.gov/prod/opportunities/v2/search"
         params = {
             "api_key": api_key,
             "limit": 20,
-            "postedFrom": (datetime.now() - timedelta(days=14)).strftime("%m/%d/%Y"),
+            "postedFrom": (datetime.now() - timedelta(days=30)).strftime("%m/%d/%Y"),
             "postedTo": datetime.now().strftime("%m/%d/%Y"),
             "ptype": "o,p,k",
             "ncode": "336414,336413,334511,334220",
