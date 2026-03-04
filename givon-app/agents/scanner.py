@@ -26,16 +26,15 @@ def scan_sam_gov() -> list:
     log("סורק SAM.gov...")
     items = []
     try:
-        # API key נדרש — חינמי ב-sam.gov/api
-        api_key = os.environ.get("SAM_GOV_API_KEY", "DEMO_KEY")  # הגדר: export SAM_GOV_API_KEY="your-key"
+        api_key = os.environ.get("SAM_GOV_API_KEY", "DEMO_KEY")
         url = "https://api.sam.gov/opportunities/v2/search"
         params = {
             "api_key": api_key,
             "limit": 20,
             "postedFrom": (datetime.now() - timedelta(days=14)).strftime("%m/%d/%Y"),
             "postedTo": datetime.now().strftime("%m/%d/%Y"),
-            "ptype": "o,p,k",  # solicitation types
-            "ncode": "336414,336413,334511,334220",  # NAICS codes: aerospace, defense electronics
+            "ptype": "o,p,k",
+            "ncode": "336414,336413,334511,334220",
         }
         resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
         if resp.status_code == 200:
@@ -56,6 +55,8 @@ def scan_sam_gov() -> list:
                     "raw": opp,
                 })
             log(f"  SAM.gov: {len(items)} פריטים")
+        else:
+            log(f"  SAM.gov: status {resp.status_code}")
     except Exception as e:
         log(f"  SAM.gov שגיאה: {e}")
     return items
@@ -67,11 +68,7 @@ def scan_sbir_gov() -> list:
     items = []
     try:
         url = "https://api.sbir.gov/solicitations"
-        params = {
-            "agency": "DOD",
-            "open": True,
-            "rows": 20,
-        }
+        params = {"agency": "DOD", "open": True, "rows": 20}
         resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
         if resp.status_code == 200:
             data = resp.json()
@@ -97,11 +94,9 @@ def scan_sbir_gov() -> list:
 
 
 def scan_edf() -> list:
-    """European Defence Fund — RSS + scraping"""
-    log("סורק EDF...")
+    log("סורק European Defence Fund...")
     items = []
     try:
-        # EDF Funding portal RSS
         feed = feedparser.parse(
             "https://defence-industry-space.ec.europa.eu/funding-tenders/european-defence-fund_en.rss"
         )
@@ -109,7 +104,7 @@ def scan_edf() -> list:
             items.append({
                 "source": "European Defence Fund",
                 "source_tier": 1,
-                "url": entry.get("link", "https://defence-industry-space.ec.europa.eu"),
+                "url": entry.get("link", ""),
                 "title": entry.get("title", ""),
                 "org": "European Defence Fund",
                 "country": "אירופה",
@@ -118,16 +113,15 @@ def scan_edf() -> list:
                 "deadline": "",
                 "posted": entry.get("published", ""),
                 "type": "EDF",
-                "raw": dict(entry),
+                "raw": {},
             })
-        log(f"  EDF: {len(items)} פריטים")
+        log(f"  European Defence Fund: {len(items)} פריטים")
     except Exception as e:
         log(f"  EDF שגיאה: {e}")
     return items
 
 
 def scan_nato_diana() -> list:
-    """NATO DIANA — challenges page"""
     log("סורק NATO DIANA...")
     items = []
     try:
@@ -136,7 +130,7 @@ def scan_nato_diana() -> list:
             items.append({
                 "source": "NATO DIANA",
                 "source_tier": 1,
-                "url": entry.get("link", "https://www.diana.nato.int"),
+                "url": entry.get("link", ""),
                 "title": entry.get("title", ""),
                 "org": "NATO DIANA",
                 "country": "נאט״ו",
@@ -145,26 +139,8 @@ def scan_nato_diana() -> list:
                 "deadline": "",
                 "posted": entry.get("published", ""),
                 "type": "Challenge",
-                "raw": dict(entry),
+                "raw": {},
             })
-        if not items:
-            # Fallback: scrape the challenges page
-            resp = requests.get("https://www.diana.nato.int/challenges", headers=HEADERS, timeout=15)
-            if resp.status_code == 200:
-                items.append({
-                    "source": "NATO DIANA",
-                    "source_tier": 1,
-                    "url": "https://www.diana.nato.int/challenges",
-                    "title": "NATO DIANA Active Challenges — לבדיקה ידנית",
-                    "org": "NATO DIANA",
-                    "country": "נאט״ו",
-                    "flag": "🏛️",
-                    "description": "עמוד האתגרים של NATO DIANA נסרק — יש לבדוק ידנית אתגרים חדשים",
-                    "deadline": "",
-                    "posted": datetime.now().isoformat(),
-                    "type": "Challenge",
-                    "raw": {},
-                })
         log(f"  NATO DIANA: {len(items)} פריטים")
     except Exception as e:
         log(f"  NATO DIANA שגיאה: {e}")
@@ -172,7 +148,6 @@ def scan_nato_diana() -> list:
 
 
 def scan_uk_dasa() -> list:
-    """UK DASA — Defence & Security Accelerator"""
     log("סורק UK DASA...")
     items = []
     try:
@@ -181,7 +156,7 @@ def scan_uk_dasa() -> list:
             items.append({
                 "source": "UK DASA",
                 "source_tier": 1,
-                "url": entry.get("link", "https://www.ukdasa.com"),
+                "url": entry.get("link", ""),
                 "title": entry.get("title", ""),
                 "org": "UK Defence & Security Accelerator",
                 "country": "בריטניה",
@@ -190,7 +165,7 @@ def scan_uk_dasa() -> list:
                 "deadline": "",
                 "posted": entry.get("published", ""),
                 "type": "DASA",
-                "raw": dict(entry),
+                "raw": {},
             })
         log(f"  UK DASA: {len(items)} פריטים")
     except Exception as e:
@@ -199,11 +174,9 @@ def scan_uk_dasa() -> list:
 
 
 def scan_horizon_europe() -> list:
-    """Horizon Europe — EU Funding Portal RSS"""
     log("סורק Horizon Europe...")
     items = []
     try:
-        # EU Funding & Tenders portal search API
         url = "https://api.tech.ec.europa.eu/search-api/prod/rest/search"
         params = {
             "apiKey": "SEDIA",
@@ -219,7 +192,7 @@ def scan_horizon_europe() -> list:
                 items.append({
                     "source": "Horizon Europe",
                     "source_tier": 1,
-                    "url": result.get("url", "https://ec.europa.eu/info/funding-tenders"),
+                    "url": result.get("url", ""),
                     "title": result.get("title", ""),
                     "org": "European Commission",
                     "country": "אירופה",
@@ -228,7 +201,7 @@ def scan_horizon_europe() -> list:
                     "deadline": md.get("deadlineDate", [""])[0] if md.get("deadlineDate") else "",
                     "posted": md.get("startDate", [""])[0] if md.get("startDate") else "",
                     "type": "Horizon Europe",
-                    "raw": result,
+                    "raw": {},
                 })
         log(f"  Horizon Europe: {len(items)} פריטים")
     except Exception as e:
@@ -237,40 +210,34 @@ def scan_horizon_europe() -> list:
 
 
 def scan_afwerx() -> list:
-    """AFWERX — challenges and solicitations"""
     log("סורק AFWERX...")
     items = []
     try:
         feed = feedparser.parse("https://afwerx.com/feed/")
         for entry in feed.entries[:10]:
-            # סנן רק פריטים רלוונטיים
-            title_lower = entry.get("title", "").lower()
-            relevant_keywords = ["challenge", "sbir", "sttr", "solicitation", "open", "call", "opportunity"]
-            if any(kw in title_lower for kw in relevant_keywords):
-                items.append({
-                    "source": "AFWERX",
-                    "source_tier": 1,
-                    "url": entry.get("link", "https://afwerx.com"),
-                    "title": entry.get("title", ""),
-                    "org": "AFWERX / USAF",
-                    "country": "ארה״ב",
-                    "flag": "🇺🇸",
-                    "description": entry.get("summary", "")[:500],
-                    "deadline": "",
-                    "posted": entry.get("published", ""),
-                    "type": "AFWERX",
-                    "raw": dict(entry),
-                })
+            items.append({
+                "source": "AFWERX",
+                "source_tier": 1,
+                "url": entry.get("link", ""),
+                "title": entry.get("title", ""),
+                "org": "AFWERX / USAF",
+                "country": "ארה״ב",
+                "flag": "🇺🇸",
+                "description": entry.get("summary", "")[:500],
+                "deadline": "",
+                "posted": entry.get("published", ""),
+                "type": "AFWERX",
+                "raw": {},
+            })
         log(f"  AFWERX: {len(items)} פריטים")
     except Exception as e:
         log(f"  AFWERX שגיאה: {e}")
     return items
 
 
-# ─── TIER 2: RSS ─────────────────────────────────────────────────────────────
+# ─── RSS גנרי ────────────────────────────────────────────────────────────────
 
 def scan_rss_source(name: str, url: str, org: str, country: str, flag: str, type_: str, tier: int = 2) -> list:
-    """סריקת מקור RSS גנרי"""
     log(f"סורק {name}...")
     items = []
     try:
@@ -288,7 +255,7 @@ def scan_rss_source(name: str, url: str, org: str, country: str, flag: str, type
                 "deadline": "",
                 "posted": entry.get("published", ""),
                 "type": type_,
-                "raw": {"title": entry.get("title"), "link": entry.get("link")},
+                "raw": {},
             })
         log(f"  {name}: {len(items)} פריטים")
     except Exception as e:
@@ -296,109 +263,62 @@ def scan_rss_source(name: str, url: str, org: str, country: str, flag: str, type
     return items
 
 
-RSS_SOURCES = [
-    # ─ News & Analysis (Tier 2) ─
-    ("Breaking Defense",    "https://breakingdefense.com/feed/",              "Breaking Defense",    "גלובלי", "🌐", "News",     2),
-    ("Defense News",        "https://www.defensenews.com/rss/",               "Defense News",        "גלובלי", "🌐", "News",     2),
-    ("Defense One",         "https://www.defenseone.com/rss/all/",            "Defense One",         "גלובלי", "🌐", "News",     2),
-    ("DARPA News",          "https://www.darpa.mil/rss/news",                 "DARPA",               "ארה״ב",  "🇺🇸", "DARPA",    1),
-    ("Army Futures",        "https://www.army.mil/rss/78",                    "Army Futures Command","ארה״ב",  "🇺🇸", "Army",     2),
-    # ─ Think Tanks (Tier 3) ─
-    ("RAND Defense",        "https://www.rand.org/topics/defense-and-security.xml", "RAND",          "גלובלי", "🌐", "Analysis", 3),
-    ("CSIS Defense",        "https://www.csis.org/programs/international-security-program/rss.xml", "CSIS", "גלובלי", "🌐", "Analysis", 3),
-    # ─ Industry (Tier 2) ─
-    ("Rheinmetall News",    "https://www.rheinmetall.com/en/rss",             "Rheinmetall",         "גרמניה", "🇩🇪", "Industry", 2),
-    ("BAE Systems News",    "https://www.baesystems.com/en/rss",              "BAE Systems",         "בריטניה","🇬🇧", "Industry", 2),
-    ("Anduril Blog",        "https://www.anduril.com/rss.xml",                "Anduril",             "ארה״ב",  "🇺🇸", "Industry", 2),
-    ("Elbit News",          "https://elbitsystems.com/rss/",                  "Elbit Systems",       "ישראל",  "🇮🇱", "Industry", 2),
-]
-
-
-# ─── TIER 1: LinkedIn (ידני — דרך Phantombuster / manual) ──────────────────
-
-def scan_linkedin_manual() -> list:
-    """
-    LinkedIn לא ניתן לסרוק אוטומטית (ToS + blocking).
-    במקום זאת — מחזיר תזכורת לבדיקה ידנית של הדפים המרכזיים.
-    """
-    log("מייצר תזכורות LinkedIn...")
-    linkedin_pages = [
-        ("NATO DIANA",           "https://www.linkedin.com/company/nato-diana/"),
-        ("DIU",                  "https://www.linkedin.com/company/diux/"),
-        ("AFWERX",               "https://www.linkedin.com/company/afwerx/"),
-        ("NATO Innovation Fund", "https://www.linkedin.com/company/nato-innovation-fund/"),
-        ("Shield Capital",       "https://www.linkedin.com/company/shield-capital/"),
-        ("Anduril",              "https://www.linkedin.com/company/anduril-industries/"),
-        ("Rheinmetall",          "https://www.linkedin.com/company/rheinmetall-ag/"),
-        ("In-Q-Tel",             "https://www.linkedin.com/company/in-q-tel/"),
-        ("DASA UK",              "https://www.linkedin.com/company/ukdasa/"),
-    ]
-    items = []
-    for name, url in linkedin_pages:
-        items.append({
-            "source": "LinkedIn",
-            "source_tier": 1,
-            "url": url,
-            "title": f"[LinkedIn] {name} — בדיקה ידנית נדרשת",
-            "org": name,
-            "country": "גלובלי",
-            "flag": "💼",
-            "description": f"יש לבדוק ידנית את דף LinkedIn של {name} לעדכונים, הכרזות ודרושים שמשקפים כוונות אסטרטגיות.",
-            "deadline": "",
-            "posted": datetime.now().isoformat(),
-            "type": "LinkedIn",
-            "manual_check": True,
-            "raw": {},
-        })
-    return items
-
-
 # ─── Runner ──────────────────────────────────────────────────────────────────
 
 def load_sources(path: str = "sources.json") -> dict:
-    """טוען את רשימת המקורות מה-JSON הנושם"""
     try:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
-        log(f"⚠️  {path} לא נמצא — משתמש ב-fallback")
+        log(f"⚠️  {path} לא נמצא")
         return {}
 
 
 def run_all_scans(sources_path: str = "sources.json") -> list:
-    """מריץ את כל הסריקות לפי sources.json"""
     sources = load_sources(sources_path)
     all_items = []
 
     log(f"טוען מקורות מ-{sources_path}...")
 
-    # ─ APIs ─
+    # ─ APIs ידועות ─
     api_handlers = {
-        "sam_gov":       scan_sam_gov,
-        "sbir_gov":      scan_sbir_gov,
-        "edf":           scan_edf,
-        "nato_diana":    scan_nato_diana,
-        "uk_dasa":       scan_uk_dasa,
-        "eu_funding":    scan_horizon_europe,
-        "afwerx":        scan_afwerx,
+        "sam_gov":    scan_sam_gov,
+        "sbir_gov":   scan_sbir_gov,
+        "edf":        scan_edf,
+        "nato_diana": scan_nato_diana,
+        "uk_dasa":    scan_uk_dasa,
+        "eu_funding": scan_horizon_europe,
+        "afwerx":     scan_afwerx,
     }
 
-    for tier_key in ["tier1_apis"]:
+    for source in sources.get("tier1_apis", []):
+        if not source.get("active", True):
+            continue
+        handler = api_handlers.get(source["id"])
+        if handler:
+            all_items += handler()
+            time.sleep(1)
+
+    # ─ RSS — כל הקבוצות הנכונות לפי sources.json ─
+    rss_tier_keys = [
+        ("tier1_rss",                  1),
+        ("tier2_procurement",          2),
+        ("tier2_vc_defense",           2),
+        ("tier2_civil_infrastructure", 2),
+        ("tier3_industry_signals",     3),
+    ]
+
+    for tier_key, tier_num in rss_tier_keys:
         for source in sources.get(tier_key, []):
             if not source.get("active", True):
                 log(f"  ⏭ מדולג: {source['name']}")
                 continue
-            handler = api_handlers.get(source["id"])
-            if handler:
-                all_items += handler()
-                time.sleep(1)
-
-    # ─ RSS (כל שאר הרמות) ─
-    for tier_key in ["tier1_rss", "tier2_news", "tier2_industry", "tier3_think_tanks", "tier3_vc_investors"]:
-        tier_num = 1 if "tier1" in tier_key else 2 if "tier2" in tier_key else 3
-        for source in sources.get(tier_key, []):
-            if not source.get("active", True):
-                log(f"  ⏭ מדולג: {source['name']}")
+            # מקורות עם type מיוחד
+            src_type = source.get("type", tier_key)
+            if src_type in ("api", "sam_search"):
+                # טיפול מיוחד ב-SAM search
+                if source.get("id") == "socom_sam":
+                    all_items += scan_sam_gov()  # ישתמש ב-API הרגיל
                 continue
             all_items += scan_rss_source(
                 name    = source["name"],
@@ -406,7 +326,7 @@ def run_all_scans(sources_path: str = "sources.json") -> list:
                 org     = source["name"],
                 country = source.get("country", "גלובלי"),
                 flag    = source.get("flag", "🌐"),
-                type_   = tier_key.replace("tier1_","").replace("tier2_","").replace("tier3_",""),
+                type_   = src_type,
                 tier    = tier_num,
             )
             time.sleep(0.4)
