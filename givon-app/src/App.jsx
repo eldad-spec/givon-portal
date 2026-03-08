@@ -914,7 +914,6 @@ const EXPO_TARGETS = [
     hook:"Ondas acquired Sentrycs — an Israeli C-UAS company — and it worked. Givon's Aerosentry is the next logical step: same thesis, stronger technology. ~200 employees, active M&A strategy.",
     reasons:["רכשו Sentrycs ישראלית — precedent","Aerosentry = אותה קטגוריה, TRL גבוה","~200 עובדים, public company","M&A אסטרטגית פעילה"],
     status:"טרם פנינו", url:"https://www.ondas.com" },
-status:"טרם פנינו", url:"https://www.ondas.com" },
 
   { id:"e30", tier:3, name:"HawkEye 360", flag:"🇺🇸", country:"ארה״ב", poc:"John Serafini", pocTitle:"CEO", linkedin:"https://www.linkedin.com/company/hawkeye-360/", offer:"נתוני קצה מ-GuaRdF + RF מהחלל של HawkEye = תמונת מודיעין RF מלאה.", product:"GuaRdF + Space RF Intel", fitScore:85, theme:"primes", hook:"HawkEye 360 sees RF from space — GuaRdF sees it from the ground. Together: complete RF intelligence.", reasons:["RF מהחלל","RF מהקצה — משלים","Homeland Security"], status:"טרם פנינו", url:"https://www.he360.com" },
 
